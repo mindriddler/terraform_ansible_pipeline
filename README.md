@@ -1,26 +1,20 @@
-# Team gear5
+<p align="center">
+    <img src="img/stick-shift.png" width="100" height="100">
+</p>
 
-## Project Description
-
-[Description](assignment.md)
-
----
-
-## Trello Board
-
-[gear5 Trello Board](https://trello.com/b/HF9T6NHr/gear5)
-
----
+# gear<font color="red">5</font> - Linux II Project
 
 ## Team Members
 
-| Name | Role | 📸 | GitHub Link |
-| --- | --- | :---: | --- |
-| Saman Perfat | Team Leader | <img src="img//Saman_Petfat.png" width=20%> | [Saman Perfat](https://github.com/SamanPetfat) |
-| Martin Alfredson | Team Member | <img src="img//Martin_Alfredson.png" width=20%> | [Martin Alfredson](https://github.com/maal2202)
-| Pavel Kostyuk | Team Member | <img src="img//Pavel_Kostyuk.png" width=20%> | [Pavel Kostyuk](https://github.com/PavelKostyuk) |
-| Fredrik Magnusson | Tech Lead | <img src="img//Fredrik_Magnusson.png" width=20%> | [Fredrik Magnusson](https://github.com/mindriddler) |
-| Alex Roman | Junior Developer | <img src="img//Alex_Roman.png" width=20%> | [Alex Roman](https://github.com/AlexRoman777) |
+| <img src="img/stick-shift.png" width="50" height="50"> | <img src="img/Saman_Petfat.png" width="50" height="50"> | <img src="img/Martin_Alfredson.png" width="50" height="50"> | <img src="img/Pavel_Kostyuk.png" width="50" height="50"> | <img src="img/Fredrik_Magnusson_no_bg.png" width="50" height="50"> | <img src="img/Alex_Roman.png" width="50" height="50"> |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| GitHub | [Saman Perfat](https://github.com/SamanPetfat) | [Martin Alfredson](https://github.com/maal2202) | [Pavel Kostyuk](https://github.com/PavelKostyuk) | [Fredrik Magnusson](https://github.com/mindriddler) | [Alex Roman](https://github.com/AlexRoman777) |
+
+---
+
+[Description](assignment.md)
+
+[gear5 Trello Board](https://trello.com/b/HF9T6NHr/gear5)
 
 ---
 
