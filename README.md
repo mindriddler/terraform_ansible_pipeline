@@ -2,7 +2,7 @@
 
 ## Project Description
 
-This project is part of Linux 2
+[Description](assignment.md)
 
 ---
 
