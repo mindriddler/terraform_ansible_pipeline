@@ -28,9 +28,9 @@
 
 - [x] Create a Trello board
 - [x] Create a GitHub repository
-- [ ] Docker Compose
-- [x] Create a README.md
-- [x] Create a project description
+- [x] Create a README.md for the project
+- [ ] Create the docker-compose file
+- [ ] Create the .env file
 - [ ] PDF report
 - [ ] Presentation
 
