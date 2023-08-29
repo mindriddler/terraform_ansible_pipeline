@@ -24,6 +24,39 @@
 
 ---
 
+## How to run the project
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [Git](https://git-scm.com/downloads)
+
+### Clone the repository
+
+```bash
+git clone https://github.com/SamanPetfat/gear5.git
+```
+
+### Run the project
+
+```bash
+cd gear5
+docker-compose up -d
+```
+### View the project
+```bash
+Navigate to [http://localhost:8080](http://localhost:8080) in your browser to view the phpadmin interface.
+Navigate to [http://localhost:8081](http://localhost:8000) in your browser to view the wordpress site.
+```
+### Stop the project
+
+```bash
+docker-compose down
+```
+
+---
+
 ## TODO
 
 - [x] Create a Trello board
