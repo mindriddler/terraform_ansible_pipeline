@@ -1,5 +1,13 @@
 # Team gear5
 
+## Team Members
+
+- [Saman Perfat](https://github.com/SamanPetfat) - Team Leader
+- [Martin Alfredson](https://github.com/maal2202) - Team Member
+- [Pavel Kostyuk](https://github.com/PavelKostyuk) - Team Member
+- [Fredrik Magnusson](https://github.com/mindriddler) - Tech Lead
+- [Alex Roman](https://github.com/AlexRoman777) - Junior Developer
+
 ## Create a virtual environment
 
 ```bash
