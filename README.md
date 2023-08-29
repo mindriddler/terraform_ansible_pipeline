@@ -24,25 +24,14 @@
 
 ---
 
-## Create a virtual environment
+## TODO
 
-```bash
-python3 -m venv .venv # Linux and macOS
-python -m venv .venv # Windows
-```
-
-### Step 2 - Activate the virtual environment
-
-```bash
-source .venv/bin/activate # Linux and macOS
-.venv\Scripts\activate # Windows
-```
-
-### Step 3 - Install dependencies
-
-```bash
-pip install -r requirements.txt # Linux and macOS
-pip install -r requirements.txt # Windows
-```
+- [x] Create a Trello board
+- [x] Create a GitHub repository
+- [ ] Docker Compose
+- [x] Create a README.md
+- [x] Create a project description
+- [ ] PDF report
+- [ ] Presentation
 
 ---
