@@ -14,7 +14,7 @@
 
 ## Team Members
 
-| Name | Role | The Face | GitHub Link |
+| Name | Role | 📸 | GitHub Link |
 | --- | --- | :---: | --- |
 | Saman Perfat | Team Leader | <img src="img//Saman_Petfat.png" width=20%> | [Saman Perfat](https://github.com/SamanPetfat) |
 | Martin Alfredson | Team Member | <img src="img//Martin_Alfredson.png" width=20%> | [Martin Alfredson](https://github.com/maal2202)
