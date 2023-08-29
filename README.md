@@ -45,10 +45,11 @@ cd gear5
 docker-compose up -d
 ```
 ### View the project
-```bash
+
 Navigate to [http://localhost:8080](http://localhost:8080) in your browser to view the phpadmin interface.
-Navigate to [http://localhost:8081](http://localhost:8000) in your browser to view the wordpress site.
-```
+
+Navigate to [http://localhost:8000](http://localhost:8000) in your browser to view the wordpress site.
+
 ### Stop the project
 
 ```bash
@@ -62,11 +63,11 @@ docker-compose down
 - [x] Create a Trello board
 - [x] Create a GitHub repository
 - [x] Create a README.md for the project
-- [ ] We need to decide on a framework, Wordpress or 'vanilla' PHP
-- [ ] Create the docker-compose file
-- [ ] Create the .env file (see example.env for reference)
-- [ ] Set up .gitignore file - So we don't commit unnecessary files
-- [ ] Get a Dev environment up and running
+- [x] We need to decide on a framework, Wordpress or 'vanilla' PHP
+- [x] Create the docker-compose file
+- [x] Create the .env file (see example.env for reference)
+- [x] Set up .gitignore file - So we don't commit unnecessary files
+- [x] Get a Dev environment up and running
 - [ ] Plan about firewall, user management, etc.
 - [ ] Plan for backup and restore
 - [ ] Plan for monitoring
