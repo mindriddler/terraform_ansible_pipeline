@@ -47,6 +47,7 @@ docker-compose up -d
 ### View the project
 
 Navigate to [http://localhost:8080](http://localhost:8080) in your browser to view the phpadmin interface.
+
 Navigate to [http://localhost:8081](http://localhost:8000) in your browser to view the wordpress site.
 
 ### Stop the project
