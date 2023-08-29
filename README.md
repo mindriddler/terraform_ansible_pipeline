@@ -44,6 +44,7 @@ git clone https://github.com/SamanPetfat/gear5.git
 cd gear5
 docker-compose up -d
 ```
+
 ### View the project
 
 Navigate to [http://localhost:8080](http://localhost:8080) in your browser to view the phpadmin interface.
