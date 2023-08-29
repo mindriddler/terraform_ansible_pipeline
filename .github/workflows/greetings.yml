@@ -1,0 +1,23 @@
+---
+name: Greetings
+
+on: [pull_request_target, issues]
+
+jobs:
+  greeting:
+    name: Greeting the newcomer
+    runs-on: ubuntu-latest
+
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Greet the newcomer
+        uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }} # Saman must create a secret token for this repo
+          issue-message: 
+            "Welcome to gear5!"
+          pr-message: 
+            "Welcome to gear5!"
