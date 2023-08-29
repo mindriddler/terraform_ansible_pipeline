@@ -1,8 +1,8 @@
 <p align="center">
-    <img src="img/stick-shift.png" width="100" height="100">
+    <img src="img/stick-shift.png" width="150" height="150">
 </p>
 
-# gear<font color="red">5</font> - Linux II Project
+# *gear*5 - Linux II *Project*
 
 ## Team Members
 
