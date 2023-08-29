@@ -27,3 +27,12 @@ custom_sleep() {
         read -t $2 -p "$1" -n 1 -r
     fi
 }
+
+open_browser() {
+    case "$OSTYPE" in
+        darwin*)  open http://localhost ;;
+        linux*)   xdg-open http://localhost ;;
+        msys*)    cmd.exe /C start http://localhost ;;
+        *)        echo "unknown: $OSTYPE" ;;
+    esac
+}
