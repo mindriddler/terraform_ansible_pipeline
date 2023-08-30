@@ -3,25 +3,39 @@
 # Work in progress. This script is unnecessary for the project.
 # Remember to chmod +x start.sh to make it executable. 
 # Then run it with ./start.sh
+# Not shown in the menu, but you can remove all images with [r] option.
 
 build_project() {
     docker-compose up -d
-    custom_sleep "Project is being built. Press any key to continue..."
+    custom_sleep "Press any key to continue..."
 }
 
 stop_project() {
     docker-compose stop
-    custom_sleep "Containers are stopping...(wait 5 secunds)" 5
+    custom_sleep "Containers stopped" 2
 }
 
 remove_project() {
     docker-compose down -v
-    custom_sleep "Containers are being removed...(wait 5 secunds)" 5
+    custom_sleep "Containers removed" 2
 }
 
 start_project() {
     docker-compose start
-    custom_sleep "Containers are starting...(wait 5 secunds)" 5
+    custom_sleep "Containers starting" 3
+}
+
+delete_all_images() {
+    read -p "Are you sure you want to delete all images? [y/n] " -n 1 -r
+    echo ""
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo "Start deleting all images..."
+        docker rmi $(docker images -q)
+        custom_sleep "All images are deleted. Press any key to continue..."
+    else
+        echo "Aborted!"
+        custom_sleep "Press any key to continue..."
+    fi
 }
    
 
@@ -43,7 +57,7 @@ start_docker() {
     case "$OSTYPE" in
         darwin*)  start_docker_mac ;;
         linux*)   start_docker_linux ;;
-        msys*)    echo " Start Docker manually!" ;;
+        msys*)    custom_sleep "Start Docker manually!" 2 ;;
         *)        echo "unknown: $OSTYPE" ;;
     esac
 
@@ -72,7 +86,7 @@ stop_docker() {
     case "$OSTYPE" in
         darwin*)  osascript -e 'quit app "Docker"' ;;
         linux*)   sudo systemctl stop docker ;;
-        msys*)    echo " Stop Docker manually!" ;;
+        msys*)    custom_sleep "Stop Docker manually!" 2 ;;
         *)        echo "unknown: $OSTYPE" ;;
     esac
 }
@@ -180,11 +194,11 @@ main() {
         case $choice in
             0)
                 clear
-                build_project
+                start_docker
                 ;;
             1)
                 clear
-                start_project
+                build_project
                 ;;
             2)
                 clear
@@ -222,6 +236,10 @@ main() {
             q)
                 echo "Bye"
                 break
+                ;;
+            r)
+                clear
+                delete_all_images
                 ;;
             *)  
                 clear
