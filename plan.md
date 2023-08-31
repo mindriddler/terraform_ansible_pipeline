@@ -7,25 +7,30 @@
 2 olika media
 1 offsite
 
-Skriva ett enkelt bash som ligger som ett cron jobb och kollar jämtemot github api för att se om ändrignar skett under de senaste X timmarna
 loadbalancer
 fail2ban    
 ufw 
 iptables
 
-ingen ssh
+stänga av ssh password access och lägga in nycklarna till de person som behöver access till servern
 
 grafana/elk stack
 
-ubuntu server
+ubuntu server (senaste LTS versionen)
 
-skapa användare för mysql och apache
+skapa användare för mysql och wordpress
+
+tjänster som ska köras på servern
+
+mysql kör på en egen server
+wordpress och phpmyadmin kör på en egen server men på samma maskin
+
+backup av databasen ska ske varje natt och sparas i en cloud storage bucket (GCP)
 
 backup verktyg
 
-cron jobb för att autostarta tjänster vid omstart
-cron jobb vid midnatt för att ta backup
-cron jobb för att automatiskt installera säkherhetsuppdateringar
+cron jobb för att autostarta tjänster vid omstart (wordpress, mysql, phpmyadmin)
+cron jobb för att automatiskt installera säkherhetsuppdateringar som kör varje natt efter backup är gjord
 
 SSL/TLS-certifikat: Om din server kommer att vara värd för webbtjänster som är tillgängliga externt, bör du ha ett SSL/TLS-certifikat för att säkra all trafik. Lösningar som Let's Encrypt erbjuder gratis certifikat.
 
@@ -35,16 +40,17 @@ Regelbunden uppdatering: Skapa ett schema eller automatisering för att regelbun
 
 Övervakning: Implementera ett system som övervakar serverns tillstånd i realtid, inte bara med Grafana/ELK men kanske med något som Nagios eller Zabbix.
 
-Penetrationstestning: Överväg att periodvis genomföra penetrationstestning för att identifiera potentiella sårbarheter i ditt system.
-
 Katastrofberedskap: Ha en tydlig katastrofåterställningsplan. Vad gör du om servern kraschar, eller om det finns en säkerhetsöverträdelse?
 
 Databassäkerhet: För MySQL, överväg att implementera tekniker som databaschifferering, användning av saltade hashar för lösenord och regelbunden granskning av databasbehörigheter.
 
 Webbapplikationssäkerhet: Om du kör en webbapplikation, tänk på säkerhetsrisker som SQL-injektion, Cross Site Scripting (XSS) och Cross Site Request Forgery (CSRF). Överväg att använda säkerhetstillsatser som Web Application Firewalls (WAF) eller verktyg som ModSecurity.
 
-API-säkerhet: Om du interagerar med externa API:er, inklusive GitHub, tänk på hur du lagrar och hanterar autentiseringsuppgifter. Se till att nycklar eller tokens är säkert lagrade och inte hårdkodade i skript eller källkod.
+wordpress security plugin - wordfence security 
 
-Kontroll av konfigurationsfiler: Tänk på att använda verktyg som etckeeper för att spåra och versionskontrollera ändringar i konfigurationsfiler.
-
-MFA (Multi-Factor Authentication): För tjänster som stöder det, använd MFA för att öka säkerheten vid inloggning.
+## Detta är en väldigt ihopslängd plan
+## Tänk inte att det är Emanuel som ska ha den här planen, utan att det är en plan för en kund eller kollega.
+## Planen ska beskriva vad som ska göras, inte hur det ska göras.
+## Planen ska beskriva varför det ska göras
+## Planen ska beskriva när det ska göras
+## Feel free att lägga till mer eller ändra i planen om du tycker att det behövs
