@@ -4,6 +4,10 @@
 
 # *gear*5 - Linux II *Project*
 
+[![Lint Code Base](https://github.com/SamanPetfat/gear5/actions/workflows/super-linter.yml/badge.svg)](https://github.com/SamanPetfat/gear5/actions/workflows/super-linter.yml)
+
+---
+
 ## Team Members
 
 | <img src="img/stick-shift.png" width="50" height="50"> | <img src="img/Saman_Petfat.png" width="50" height="50"> | <img src="img/Martin_Alfredson.png" width="50" height="50"> | <img src="img/Pavel_Kostyuk.png" width="50" height="50"> | <img src="img/Fredrik_Magnusson_no_bg.png" width="50" height="50"> | <img src="img/Alex_Roman.png" width="50" height="50"> |
