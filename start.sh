@@ -9,9 +9,7 @@ splash_screen() {
     while IFS= read -r line; do
         echo "$line"
     done < img/stick-shift.txt
-    custom_sleep "" 1
-    echo ""
-    custom_sleep "              gear5 LAMP Quick Menu" 2
+    custom_sleep "Press any key to continue..."
 }
 
 build_project() {
@@ -189,8 +187,8 @@ menu() {
 }
 
 main() {
-    clear
-    splash_screen
+    # clear
+    # splash_screen
     while true; do
         clear
         echo "Info:"
