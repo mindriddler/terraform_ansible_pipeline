@@ -46,6 +46,8 @@ Add your own values to the .env file, where applicable.
 vim .env # or nano .env
 ```
 
+Use the same password everywhere for now.
+
 ```bash
 # Variables för mysql
 MYSQL_ROOT_PASSWORD=MYpassword123!            
@@ -112,5 +114,10 @@ docker-compose start
 - [ ] PDF report
 - [ ] Presentation
 - [ ] Risk analysis, see e_säkerhet.pdf
+- [ ] Security
+- [ ] Rutins
+- [ ] Backup and restore
+- [ ] Access
+- [ ] Performance
 
 ---
