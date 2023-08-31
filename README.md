@@ -112,5 +112,10 @@ docker-compose start
 - [ ] PDF report
 - [ ] Presentation
 - [ ] Risk analysis, see e_säkerhet.pdf
+- [ ] Security
+- [ ] Rutins
+- [ ] Backup and restore
+- [ ] Access
+- [ ] Performance
 
 ---
