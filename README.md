@@ -111,5 +111,6 @@ docker-compose start
 - [ ] Plan for deployment
 - [ ] PDF report
 - [ ] Presentation
+- [ ] Risk analysis, see e_säkerhet.pdf
 
 ---
