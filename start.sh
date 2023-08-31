@@ -187,8 +187,8 @@ menu() {
 }
 
 main() {
-    clear
-    splash_screen
+    # clear
+    # splash_screen
     while true; do
         clear
         echo "Info:"
