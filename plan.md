@@ -13,6 +13,8 @@ ufw
 iptables
 
 stänga av ssh password access och lägga in nycklarna till de person som behöver access till servern
+stänga av root over ssh
+skapa en användare som finns i sudo/wheel gruppen (Det är denna användaren som ska användas över ssh)
 
 grafana/elk stack
 
