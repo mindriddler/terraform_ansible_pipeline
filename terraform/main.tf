@@ -7,13 +7,15 @@ terraform {
   # Detta är för att vi vill kunna dela state filen med varandra och för att vi vill kunna köra terraform från
   # flera olika datorer.
   backend "gcs" {
-    bucket  = "gear5_state_bucket"
-    prefix  = "terraform/state"
+    bucket = "gear5_state_bucket"
+    prefix = "terraform/state"
   }
-  
+
+
   required_providers {
     google = {
-      source = "hashicorp/google"
+      source  = "hashicorp/google"
+      version = ">= 4.81.0"
     }
   }
 }
@@ -27,7 +29,8 @@ provider "google" {
 resource "google_compute_instance" "gear5_instance" {
   name         = var.compute_config.name
   machine_type = var.compute_config.type
-  
+
+
   # Detta behövs för att Devoteam hatar project wide ssh keys och jag har redan fått linjalen på fingrarna för att jag
   # skapade en VM med project wide ssh key. ¯\_(ツ)_/¯ 
   # Så jag vill inte göra om det misstaget igen.
@@ -35,11 +38,12 @@ resource "google_compute_instance" "gear5_instance" {
   metadata = {
     block-project-ssh-keys = "true"
   }
-  
+
+
   boot_disk {
     initialize_params {
       image = "debian-cloud/debian-11"
-    } 
+    }
   }
 
   network_interface {
@@ -53,8 +57,11 @@ resource "google_compute_instance" "gear5_instance" {
   # som vi använder oss av för att autentisera oss mot GCP.
   # Här säger vi bara till terraform att skapa VM:n och använda detta specifika service account.
   service_account {
-    email  = "gear5-linux@interns-fredrik.iam.gserviceaccount.com"
-    scopes = ["https://www.googleapis.com/auth/cloud-platform"]
+    email = "gear5-linux@interns-fredrik.iam.gserviceaccount.com"
+    scopes = [
+      "https://www.googleapis.com/auth/compute",
+      "https://www.googleapis.com/auth/devstorage.read_only"
+    ]
   }
 }
 

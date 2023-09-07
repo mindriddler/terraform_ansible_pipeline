@@ -13,66 +13,72 @@ jobs:
     outputs:
       instance_name: ${{ steps.terraform.outputs.instance_name }}
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
     
-    - name: Authenticate with GCP
-      uses: 'google-github-actions/auth@v1'
-      with:
-        credentials_json: '${{ secrets.GCP_SA_KEY }}'
-    - name: 'Set up Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v1'
+      - name: Authenticate with GCP
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
 
-    - name: Terraform Initialize and Apply
-      working-directory: ./terraform
-      id: terraform
-      run: |
-        terraform init
-        terraform apply -auto-approve
-        output=$(terraform output -raw instance_name)
-        echo "::set-output name=instance_name::$output"
+      - name: Terraform Initialize and Apply
+        working-directory: ./terraform
+        id: terraform
+        run: |
+          terraform init
+          terraform apply -auto-approve
+          output=$(terraform output -raw instance_name)
+          echo "instance_name=$output" >> $GITHUB_ENV
     
-    - name: Sleep to wait for instance to be ready
-      run: |
-        for i in {20..1}; do 
-          sleep 1
-          printf "\r $i seconds left"
-        done
+      - name: Sleep to wait for instance to be ready
+        run: |
+          for i in {20..1}; do 
+            sleep 1
+            printf "\r %s seconds left" "$i"
+          done
         
   authenticate_and_run:
     runs-on: ubuntu-latest
     needs: setup_staging_srv
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
     
-    - name: Authenticate with GCP
-      uses: 'google-github-actions/auth@v1'
-      with:
-        credentials_json: '${{ secrets.GCP_SA_KEY }}'
-    - name: 'Set up Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v1'
-
-    - name: Execute commands on remote server
-      run: | 
-        gcloud compute ssh ${{ needs.setup_staging_srv.outputs.instance_name }} --project=${{ secrets.GCP_PROJECT_ID }} --zone=europe-north1-a --tunnel-through-iap --command="cat /etc/hostname && echo 'Hello world, im running in the cloud.' echo $USERNAME"
+      - name: Authenticate with GCP
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+  
+      - name: Execute commands on remote server
+        run: | 
+          gcloud compute ssh \
+          ${{ needs.setup_staging_srv.outputs.instance_name }} \
+          --project=${{ secrets.GCP_PROJECT_ID }} \
+          --zone=europe-north1-a --tunnel-through-iap \
+          --command="cat /etc/hostname && \
+          echo 'Hello world, im running in the cloud.' \
+          echo $USERNAME"
   
   tear_down_staging_srv:
     runs-on: ubuntu-latest
     needs: authenticate_and_run
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    
-    - name: Authenticate with GCP
-      uses: 'google-github-actions/auth@v1'
-      with:
-        credentials_json: '${{ secrets.GCP_SA_KEY }}'
-    - name: 'Set up Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v1'
-    
-    - name: TEAR THIS BITCH DOWN
-      working-directory: ./terraform
-      run: |
-        terraform init
-        terraform destroy -auto-approve
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Authenticate with GCP
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+      
+      - name: TEAR THIS BITCH DOWN
+        working-directory: ./terraform
+        run: |
+          terraform init
+          terraform destroy -auto-approve
