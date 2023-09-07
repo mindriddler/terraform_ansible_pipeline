@@ -1,0 +1,16 @@
+---
+- name: Update and Upgrade
+  hosts: test_production_server
+  become: yes
+  tasks:
+    - name: Update apt
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+    - name: Upgrade apt
+      apt:
+        upgrade: dist
+        autoremove: yes
+        autoclean: yes
+        force_apt_get: yes
+        dpkg_options: 'force-confdef,force-confold'

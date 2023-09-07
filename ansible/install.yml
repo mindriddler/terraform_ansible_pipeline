@@ -1,0 +1,25 @@
+---
+- name: Install and configure the server
+  hosts: test_production_server
+  become: yes
+  tasks:
+    - name: Install the latest version of Apache
+      apt:
+        name: apache2
+        state: latest
+    - name: Install the latest version MySQL
+      apt:
+        name: mysql-server
+        state: latest
+    - name: Install the latest version of WordPress
+      apt:
+        name: wordpress
+        state: latest
+    - name: Start the Apache service
+      service:
+        name: apache2
+        state: started
+    - name: Start the MySQL service
+      service:
+        name: mysql
+        state: started

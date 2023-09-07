@@ -1,0 +1,4 @@
+---
+- name: Install Public Keys
+  hosts: test_production_server
+  become: yes
