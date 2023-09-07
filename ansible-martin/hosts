@@ -1,0 +1,5 @@
+[test_server]
+165.22.78.38 ansible_user=root ansible_ssh_private_key=/home/martin/.ssh/id_rsa
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
