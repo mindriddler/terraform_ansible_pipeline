@@ -6,6 +6,10 @@
 
 [![Lint Code Base](https://github.com/SamanPetfat/gear5/actions/workflows/super-linter.yml/badge.svg)](https://github.com/SamanPetfat/gear5/actions/workflows/super-linter.yml)
 
+[![Deploy to Staging](https://github.com/SamanPetfat/gear5/actions/workflows/staging.yml/badge.svg)](https://github.com/SamanPetfat/gear5/actions/workflows/staging.yml)
+
+[![PHP Linting](https://github.com/SamanPetfat/gear5/actions/workflows/php_linter.yml/badge.svg)](https://github.com/SamanPetfat/gear5/actions/workflows/php_linter.yml)
+
 ---
 
 ## Team Members
