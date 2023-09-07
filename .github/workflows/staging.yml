@@ -30,7 +30,7 @@ jobs:
           terraform init
           terraform apply -auto-approve
           output=$(terraform output -raw instance_name)
-          echo "instance_name=$output" >> $GITHUB_ENV
+          echo "instance_name=$output" >> "$GITHUB_OUTPUT"
     
       - name: Sleep to wait for instance to be ready
         run: |
