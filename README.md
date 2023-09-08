@@ -6,7 +6,7 @@
 
 [![Deploy to Staging](https://github.com/SamanPetfat/gear5/actions/workflows/staging.yml/badge.svg)](https://github.com/SamanPetfat/gear5/actions/workflows/staging.yml)
 
-[![PHP Linting](https://github.com/SamanPetfat/gear5/actions/workflows/php_linter.yml/badge.svg)](https://github.com/SamanPetfat/gear5/actions/workflows/php_linter.yml)
+[![PHP CodeSniffer](https://github.com/SamanPetfat/gear5/actions/workflows/php_linter.yml/badge.svg)](https://github.com/SamanPetfat/gear5/actions/workflows/php_linter.yml)
 
 ---
 
