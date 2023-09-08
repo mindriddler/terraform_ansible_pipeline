@@ -1,8 +1,20 @@
-## host is hard coded to my (martin) test VM
+## Ansible playbook suggestion - work in progress (followed some guide).
 
-## will not working for anyone else since only my public key is on the VM
+### Host is hard coded to my (martin) test VM. Will not working for anyone else since only my public key is on the VM
 
-## Created the directory structure with ansible-galaxy init (followed some guide)
-## i.e. 'ansible-galaxy init mysql' generates the role mysql and all subforders with empty .yml files
+### To make it run on our staging environment would need to change host to our staging server. Could add ansible script for SSH key exhange from/to ansible node and staging server.
 
-## This is probably very messy
+### Created the directory structure with ansible-galaxy init. Like this:
+```
+ansible-galaxy init server
+ansible-galaxy init php
+ansible-galaxy init mysql
+ansible-galaxy init wordpress
+```
+
+### This is probably very messy
+
+### Run the playbook with
+```
+ansible-playbook playbook.yml -i hosts
+```
