@@ -1,15 +1,59 @@
 ---
-name: PHP Linting
+name: PHP CodeSniffer Auto Fix
 
 on: [pull_request, workflow_dispatch]
 
 jobs:
-  phplint:
+  phpcs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: PHP Lint
-        uses: michaelw90/PHP-Lint@master
-       
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.PHPLINT_TOKEN }}
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2.10'
+        extensions: mbstring, intl, gd, xml, ctype, zip
+        tools: phpcs, phpcbf
+
+    - name: Run PHP_CodeSniffer Fixer
+      run: |
+        phpcbf --standard=PSR2 . --ignore=vendor/* || echo "PHPCBF could not fix all violations"
+    
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add -A
+        git commit -m "Apply PHPCBF fixes" || echo "No changes to commit"
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v5
+      with:
+        title: 'Automated PHPCBF Fixes'
+        commit-message: 'Apply PHPCBF fixes'
+        branch: 'phpcbf-fixes'
+        base: ${{ github.head_ref }}
+        token: ${{ secrets.PHPLINT_TOKEN }}
+
+    
+    - name: Run PHP_CodeSniffer
+      run: |
+        if [[ "${{ steps.create-pr.outputs.pull-request-number }}" != "" ]]; then
+          echo "A PR was created. Marking this step as failed."
+          exit 1
+        fi
+        if phpcs --standard=PSR2 . --ignore=vendor/* --warning-severity=0; then
+          echo "No coding standards errors found."
+        else
+          echo "Coding standards errors detected."
+          exit 1
+        fi
+
+
+
+    
