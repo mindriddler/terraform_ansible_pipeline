@@ -1,0 +1,2 @@
+---
+ansible_ssh_args: --tunnel-through-iap --zone={{ zone }} --no-user-output-enabled --quiet

@@ -1,0 +1,11 @@
+plugin: gcp_compute
+projects:
+  - "PROJECT_ID"
+auth_kind: serviceaccount
+service_account_file: "PATH_TO_SERVICE_ACCOUNT_FILE"
+hostnames:
+  - name
+keyed_groups:
+  - key: labels.type
+    separator: ""
+    prefix: ""

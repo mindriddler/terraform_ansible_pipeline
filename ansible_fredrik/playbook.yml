@@ -1,0 +1,11 @@
+---
+
+- name: Fetching and auth
+  hosts: staging
+  become: yes
+
+  tasks:
+    - name: install apache2
+      apt:
+        name: apache2
+        state: present
