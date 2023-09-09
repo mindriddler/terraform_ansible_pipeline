@@ -10,8 +10,6 @@ on:
 jobs:
   create_staging_srv:
     runs-on: ubuntu-latest
-    outputs:
-      instance_name: ${{ steps.terraform.outputs.instance_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
