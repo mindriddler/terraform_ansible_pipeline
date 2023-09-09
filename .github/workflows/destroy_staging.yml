@@ -1,0 +1,29 @@
+---
+name: Destroy staging server
+
+on:
+  workflow_run:
+    workflows: ["Setup staging server"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  tear_down_staging_srv:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+          
+    - name: Authenticate with GCP
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: '${{ secrets.GCP_SA_KEY }}'
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v1'
+          
+    - name: TEAR THIS BITCH DOWN
+      working-directory: ./terraform
+      run: |
+        terraform init
+        terraform destroy -auto-approve

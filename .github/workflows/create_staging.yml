@@ -1,0 +1,31 @@
+---
+name: Create staging server
+
+on:
+  push:
+    branches:
+      - staging
+  workflow_dispatch:
+
+jobs:
+  create_staging_srv:
+    runs-on: ubuntu-latest
+    outputs:
+      instance_name: ${{ steps.terraform.outputs.instance_name }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+    
+      - name: Authenticate with GCP
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+
+      - name: Terraform Initialize and Apply
+        working-directory: ./terraform
+        id: terraform
+        run: |
+          terraform init
+          terraform apply -auto-approve

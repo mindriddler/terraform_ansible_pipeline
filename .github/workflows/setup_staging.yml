@@ -1,0 +1,53 @@
+---
+name: Setup staging server
+
+on:
+  workflow_run:
+    workflows: ["Create staging server"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  ansible:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Authenticate with GCP
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v1'
+    
+    - name: Fetch secrets 
+      env:
+        GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      run: |
+        echo "::add-mask::$GCP_SA_KEY"
+        echo "$GCP_SA_KEY" > ./ansible/gcp-key.json
+        echo "::add-mask::$GCP_PROJECT_ID"
+        echo "PROJECT_ID=$GCP_PROJECT_ID" >> $GITHUB_ENV
+        echo "SA_KEY_PATH=gcp-key.json" >> $GITHUB_ENV
+
+    - name: Update Inventory File
+      run: |
+        sed -i "s|PATH_TO_SERVICE_ACCOUNT_FILE|$SA_KEY_PATH|" ./ansible_fredrik/misc/inventory.gcp.yml
+        sed -i "s|PROJECT_ID|$PROJECT_ID|" ./ansible_fredrik/misc/inventory.gcp.yml
+
+    - name: Install dependencies
+      run: |
+        /opt/pipx/venvs/ansible-core/bin/python -m pip install google-auth requests
+       
+    - name: Run playbook
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        playbook: playbook.yml
+        directory: ./ansible_fredrik
+        options: |
+          --inventory misc/inventory.gcp.yml
