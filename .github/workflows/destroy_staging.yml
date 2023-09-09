@@ -5,7 +5,7 @@ on:
   workflow_run:
     workflows: ["Setup staging server"]
     types:
-      - completed
+      - success
   workflow_dispatch:
 
 jobs:

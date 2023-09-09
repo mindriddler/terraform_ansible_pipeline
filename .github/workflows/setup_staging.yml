@@ -5,7 +5,7 @@ on:
   workflow_run:
     workflows: ["Create staging server"]
     types:
-      - completed
+      - success
   workflow_dispatch:
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
         GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
       run: |
         echo "::add-mask::$GCP_SA_KEY"
-        echo "$GCP_SA_KEY" > ./ansible/gcp-key.json
+        echo "$GCP_SA_KEY" > ./ansible_fredrik/gcp-key.json
         echo "::add-mask::$GCP_PROJECT_ID"
         echo "PROJECT_ID=$GCP_PROJECT_ID" >> $GITHUB_ENV
         echo "SA_KEY_PATH=gcp-key.json" >> $GITHUB_ENV
