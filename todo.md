@@ -8,13 +8,13 @@
 - [x] Create the .env file (see example.env for reference)
 - [x] Set up .gitignore file - So we don't commit unnecessary files
 - [x] Get a Dev environment up and running
-- [ ] Plan about firewall, user management, etc.
-- [ ] Plan for backup and restore
-- [ ] Plan for monitoring
-- [ ] Plan for logging
-- [ ] Plan for testing
-- [ ] Plan for deployment
-- [ ] PDF report
+- [x] Plan about firewall, user management, etc.
+- [x] Plan for backup and restore
+- [x] Plan for monitoring
+- [x] Plan for logging
+- [x] Plan for testing
+- [x] Plan for deployment
+- [x] PDF report
 - [ ] Presentation
 - [ ] Risk analysis, see e_säkerhet.pdf
 - [ ] Security

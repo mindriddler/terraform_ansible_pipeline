@@ -1,0 +1,135 @@
+/*
+Theme Name: Fotablog
+Theme URI: https://cozythemes.com/fotablog/
+Author: CozyThemes
+Author URI: https://cozythemes.com/
+Description: "Fotablog" serves as the child theme of FotaWP, inheriting all the features of FotaWP. It has been specifically designed for the blog niche and offers block-based full site editing capabilities. Its minimal and clean design allows users to create various types of blogs, such as personal writing, technical review blogger, gadget blogging, travel blogs, vlogs, and any other kind of blog site. For further information about Fotablog, kindly explore the details available at https://cozythemes.com/fotablog/.
+Template: fotawp
+Version: 1.0.1
+Requires at least: 5.9
+Tested up to: 6.2
+Requires PHP: 7.0
+License: GPLv3 or later
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
+Text Domain: fotablog
+Tags: blog, one-column, custom-background, custom-colors, custom-logo, custom-menu, editor-style, featured-images, e-commerce, full-site-editing, block-patterns, full-width-template, rtl-language-support, threaded-comments, translation-ready, block-styles, wide-blocks
+*/
+
+.wp-block-social-links.fotablog-footer-socials li a:hover {
+  background-color: var(--wp--preset--color--primary);
+  border-radius: 50%;
+}
+.wp-block-contact-form-7-contact-form-selector.fotablog-footer-newsletter form input,
+.wp-block-contact-form-7-contact-form-selector.fotablog-sidebar-newsletter form input {
+  width: 100%;
+  border-radius: 0;
+  margin-bottom: 15px;
+}
+.wp-block-contact-form-7-contact-form-selector.fotablog-footer-newsletter form input.wpcf7-form-control.wpcf7-text.wpcf7-email,
+.wp-block-contact-form-7-contact-form-selector.fotablog-sidebar-newsletter form input.wpcf7-form-control.wpcf7-text.wpcf7-email {
+  background: transparent;
+  border-color: var(--wp--preset--color--border-color);
+}
+
+.wp-block-contact-form-7-contact-form-selector.fotablog-footer-newsletter form input.wpcf7-form-control.has-spinner.wpcf7-submit,
+.wp-block-contact-form-7-contact-form-selector.fotablog-sidebar-newsletter form input.wpcf7-form-control.has-spinner.wpcf7-submit {
+  border-radius: 0;
+  background-color: var(--wp--preset--color--border-color);
+}
+.wp-block-contact-form-7-contact-form-selector.fotablog-footer-newsletter form input.wpcf7-form-control.has-spinner.wpcf7-submit:hover,
+.wp-block-contact-form-7-contact-form-selector.fotablog-sidebar-newsletter form input.wpcf7-form-control.has-spinner.wpcf7-submit:hover {
+  background-color: var(--wp--preset--color--primary);
+}
+
+.wp-block-social-links.fotablog-header-socials li a:hover svg path,
+.wp-block-social-links.fotablog-sidebar-socials li a:hover svg path {
+  fill: var(--wp--preset--color--primary);
+}
+.fotablog-header-search.wp-block-search input[type="search"] {
+  background: transparent;
+  padding: 0 15px;
+  color: #fff;
+}
+.fotablog-header-search.wp-block-search .wp-block-search__inside-wrapper {
+  padding: 0;
+}
+.fotablog-header-search.wp-block-search input[type="search"]:focus {
+  background-color: var(--wp--preset--color--primary);
+}
+.fotablog-header-search.wp-block-search input[type="search"]:focus::placeholder {
+  color: #fff;
+}
+.fotablog-header-search.wp-block-search .wp-block-search__button:hover {
+  background-color: var(--wp--preset--color--primary);
+}
+.wp-block-navigation__responsive-container .wp-block-navigation__responsive-container-content li a {
+  line-height: 45px;
+  position: relative;
+}
+.wp-block-navigation__responsive-container .wp-block-navigation__responsive-container-content li a:hover {
+  color: var(--wp--preset--color--primary);
+}
+.wp-block-navigation__responsive-container .wp-block-navigation__responsive-container-content li a:hover:before {
+  content: "";
+  left: 0;
+  bottom: -1px;
+  height: 1px;
+  width: 100%;
+  position: absolute;
+  background-color: var(--wp--preset--color--primary);
+}
+.wp-block-navigation__responsive-container .wp-block-navigation__responsive-container-content li li a:hover:before {
+  display: none;
+}
+.wp-block-button.fotablog-button-outline a {
+  border: 1px solid;
+}
+.wp-block-cover.fotablog-cta-box {
+  overflow: hidden;
+}
+.wp-block-cover.fotablog-cta-box:hover img {
+  transform: scale(1.1);
+}
+.wp-block-cover.fotablog-cta-box a:hover {
+  color: var(--wp--preset--color--primary);
+}
+
+.wp-block-query.fotablog-latestpots-masonry .wp-block-separator,
+.wp-block-separator.fotablog-heading-seprator {
+  height: 1px !important;
+}
+.wp-block-query.fotablog-latestpots-masonry .wp-block-post-template {
+  gap: 2.4em;
+  column-count: 2;
+  break-inside: avoid;
+  display: block;
+}
+.wp-block-query.fotablog-latestpots-masonry .wp-block-post-template li {
+  display: inline-block;
+  margin-block-start: 0;
+  margin-bottom: 2.4em;
+  position: relative;
+}
+
+.fotablog-more-buttons.wp-block-read-more {
+  border-bottom: 1px solid transparent;
+  transition: all ease 0.23s;
+}
+.fotablog-more-buttons.wp-block-read-more:hover {
+  border-color: var(--wp--preset--color--primary);
+}
+.wp-block-categories-list.fotablog-sidebar-categories.wp-block-categories li {
+  padding: 13px 0;
+  border-bottom: 1px solid #bbbbbb;
+}
+.wp-block-categories-list.fotablog-sidebar-categories.wp-block-categories li a {
+  color: var(--wp--preset--color--foreground);
+}
+.wp-block-categories-list.fotablog-sidebar-categories.wp-block-categories li a:hover {
+  color: var(--wp--preset--color--primary);
+}
+@media only screen and (max-width: 560px) {
+  .wp-block-query.fotablog-latestpots-masonry .wp-block-post-template {
+    column-count: 1;
+  }
+}

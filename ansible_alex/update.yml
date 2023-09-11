@@ -13,4 +13,4 @@
         autoremove: yes
         autoclean: yes
         force_apt_get: yes
-        dpkg_options: 'force-confdef,force-confold'
+        dpkg_options: "force-confdef,force-confold"

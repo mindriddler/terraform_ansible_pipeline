@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 # Work in progress. This script is unnecessary for the project.
-# Remember to chmod +x start.sh to make it executable. 
+# Remember to chmod +x start.sh to make it executable.
 # Then run it with ./start.sh
 # Not shown in the menu, but you can remove all images with [r] option.
 
 splash_screen() {
     while IFS= read -r line; do
         echo "$line"
-    done < img/stick-shift.txt
+    done <img/stick-shift.txt
     custom_sleep "Press any key to continue..."
 }
 
@@ -44,7 +44,6 @@ delete_all_images() {
         custom_sleep "Press any key to continue..."
     fi
 }
-   
 
 custom_sleep() {
     if [ -z "$2" ]; then
@@ -59,13 +58,12 @@ joke() {
     echo ""
 }
 
-
 start_docker() {
     case "$OSTYPE" in
-        darwin*)  start_docker_mac ;;
-        linux*)   start_docker_linux ;;
-        msys*)    custom_sleep "Start Docker manually!" 2 ;;
-        *)        echo "unknown: $OSTYPE" ;;
+    darwin*) start_docker_mac ;;
+    linux*) start_docker_linux ;;
+    msys*) custom_sleep "Start Docker manually!" 2 ;;
+    *) echo "unknown: $OSTYPE" ;;
     esac
 
 }
@@ -91,28 +89,28 @@ start_docker_linux() {
 stop_docker() {
 
     case "$OSTYPE" in
-        darwin*)  osascript -e 'quit app "Docker"' ;;
-        linux*)   sudo systemctl stop docker ;;
-        msys*)    custom_sleep "Stop Docker manually!" 2 ;;
-        *)        echo "unknown: $OSTYPE" ;;
+    darwin*) osascript -e 'quit app "Docker"' ;;
+    linux*) sudo systemctl stop docker ;;
+    msys*) custom_sleep "Stop Docker manually!" 2 ;;
+    *) echo "unknown: $OSTYPE" ;;
     esac
 }
 
 open_phpmyadmin() {
     case "$OSTYPE" in
-        darwin*)  open http://localhost:8080 ;;
-        linux*)   xdg-open http://localhost:8080 ;;
-        msys*)    cmd.exe /C start http://localhost:8080 ;;
-        *)        echo "unknown: $OSTYPE" ;;
+    darwin*) open http://localhost:8080 ;;
+    linux*) xdg-open http://localhost:8080 ;;
+    msys*) cmd.exe /C start http://localhost:8080 ;;
+    *) echo "unknown: $OSTYPE" ;;
     esac
 }
 
 open_wordpress() {
     case "$OSTYPE" in
-        darwin*)  open http://localhost:8000 ;;
-        linux*)   xdg-open http://localhost:8000 ;;
-        msys*)    cmd.exe /C start http://localhost:8000 ;;
-        *)        echo "unknown: $OSTYPE" ;;
+    darwin*) open http://localhost:8000 ;;
+    linux*) xdg-open http://localhost:8000 ;;
+    msys*) cmd.exe /C start http://localhost:8000 ;;
+    *) echo "unknown: $OSTYPE" ;;
     esac
 }
 
@@ -167,8 +165,6 @@ list_active_containers() {
     custom_sleep "Press any key to continue..."
 }
 
-
-
 menu() {
     echo "LAMP Quick Menu"
     echo ""
@@ -201,59 +197,59 @@ main() {
         menu
         read -p "Please enter your choice: " choice
         case $choice in
-            0)
-                clear
-                start_docker
-                ;;
-            1)
-                clear
-                build_project
-                ;;
-            2)
-                clear
-                list_active_containers
-                ;;
-            3)
-                clear
-                stop_project
-                ;;
-            4)
-                clear
-                start_project
-                ;;
-            5)
-                clear
-                open_phpmyadmin
-                ;;
-            6)
-                clear
-                open_wordpress
-                ;;
-            7)
-                clear
-                joke
-                custom_sleep "Press any key to continue..."
-                ;;
-            8)
-                clear
-                remove_project
-                ;;
-            9)
-                clear
-                stop_docker
-                ;;
-            q)
-                echo "Bye"
-                break
-                ;;
-            r)
-                clear
-                delete_all_images
-                ;;
-            *)  
-                clear
-                custom_sleep "$choice is not a valid option" 1
-                ;;
+        0)
+            clear
+            start_docker
+            ;;
+        1)
+            clear
+            build_project
+            ;;
+        2)
+            clear
+            list_active_containers
+            ;;
+        3)
+            clear
+            stop_project
+            ;;
+        4)
+            clear
+            start_project
+            ;;
+        5)
+            clear
+            open_phpmyadmin
+            ;;
+        6)
+            clear
+            open_wordpress
+            ;;
+        7)
+            clear
+            joke
+            custom_sleep "Press any key to continue..."
+            ;;
+        8)
+            clear
+            remove_project
+            ;;
+        9)
+            clear
+            stop_docker
+            ;;
+        q)
+            echo "Bye"
+            break
+            ;;
+        r)
+            clear
+            delete_all_images
+            ;;
+        *)
+            clear
+            custom_sleep "$choice is not a valid option" 1
+            ;;
         esac
     done
 }

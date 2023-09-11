@@ -2,10 +2,10 @@
 name: Setup staging server
 
 on:
-  workflow_run:
-    workflows: ["Create staging server"]
-    types:
-      - completed
+  #workflow_run:
+    #workflows: ["Create staging server"]
+    #types:
+      #- completed
   workflow_dispatch:
 
 jobs:
@@ -20,9 +20,6 @@ jobs:
       uses: 'google-github-actions/auth@v1'
       with:
         credentials_json: '${{ secrets.GCP_SA_KEY }}'
-
-    - name: 'Set up Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v1'
     
     - name: Fetch secrets 
       env:

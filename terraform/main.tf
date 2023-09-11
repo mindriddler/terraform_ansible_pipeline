@@ -29,6 +29,7 @@ provider "google" {
 resource "google_compute_instance" "gear5_instance" {
   name         = var.compute_config.name
   machine_type = var.compute_config.type
+  hostname     = var.compute_config.hostname
 
 
   # Detta behövs för att Devoteam hatar project wide ssh keys och jag har redan fått linjalen på fingrarna för att jag
@@ -40,13 +41,17 @@ resource "google_compute_instance" "gear5_instance" {
   }
 
   labels = {
-      type = "staging"
+    type = "staging"
   }
-    
+
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-11"
+      image = "projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20230907"
+      size  = 15
+      type  = "pd-ssd"
     }
+
+    mode = "READ_WRITE"
   }
 
   network_interface {
@@ -80,7 +85,7 @@ resource "google_compute_network" "vpc_network" {
 # Detta är inget som är viktigt egentligen för oss.
 resource "google_compute_firewall" "allow_tcp_from_ip_range" {
   name    = "allow-ingress-from-iap"
-  network = google_compute_network.vpc_network.self_link
+  network = google_compute_network.vpc_network.name
 
   allow {
     protocol = "tcp"
@@ -88,4 +93,30 @@ resource "google_compute_firewall" "allow_tcp_from_ip_range" {
   }
 
   source_ranges = ["35.235.240.0/20"]
+}
+
+resource "google_compute_firewall" "http_allow" {
+  name    = "default-allow-http"
+  network = google_compute_network.vpc_network.name
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["http-server"]
+}
+
+resource "google_compute_firewall" "https_allow" {
+  name    = "default-allow-https"
+  network = google_compute_network.vpc_network.name
+
+  allow {
+    protocol = "tcp"
+    ports    = ["443"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["https-server"]
 }

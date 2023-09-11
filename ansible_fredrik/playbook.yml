@@ -1,11 +1,296 @@
 ---
+#- name: Update
+# hosts: staging
+# become: true
 
-- name: Fetching and auth
+#  tasks:
+    #- name: Update and upgrade apt packages
+    #  ansible.builtin.apt:
+    #    upgrade: true
+    #    update_cache: true
+    #    cache_valid_time: 86400
+
+#- name: Add Google Cloud SDK key
+#  hosts: staging
+#  become: true
+
+#  tasks:
+#    - name: Add Google Cloud SDK apt key
+#      ansible.builtin.apt_key:
+#        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+#        state: present
+
+#    - name: Add Google Cloud SDK apt repository
+#      ansible.builtin.apt_repository:
+#        repo: "deb http://packages.cloud.google.com/apt cloud-sdk main"
+#        state: present
+
+    # - name: Install Google Cloud SDK
+    #   ansible.builtin.apt:
+    #     name: google-cloud-sdk
+    #     state: present
+
+- name: Clone repository
   hosts: staging
-  become: yes
+  become: true
 
   tasks:
-    - name: install apache2
-      apt:
-        name: apache2
+    - name: Clear destination directory
+      ansible.builtin.file:
+        path: /home/runner/gear5
+        state: absent
+    - name: Clone private repository
+      ansible.builtin.git:
+        repo: https://x-access-token:{{ lookup('env', 'GITHUB_TOKEN') }}@github.com/mindriddler/gear5.git
+        dest: /home/runner/gear5
+        version: main
+
+- name: Install required packages
+  hosts: staging
+  become: true
+  vars_files:
+    - vars/default.yml
+
+  tasks:
+    #- name: Install prerequisites
+    #  ansible.builtin.apt:
+    #    name: aptitude
+    #    state: present
+    #  tags: [system]
+
+    #- name: Install LAMP packages
+    #  ansible.builtin.apt:
+    #    name: "{{ item }}"
+    #    state: present
+    #  loop:
+    #    - apache2
+    #    - mysql-server
+    #    - python3-pymysql
+    #    - php
+    #    - php-mysql
+    #    - libapache2-mod-php
+    #  tags: [system]
+
+    #- name: Install PHP Extensions
+    #  ansible.builtin.apt:
+    #    name: "{{ item }}"
+    #    state: present
+    #  loop: "{{ php_modules }}"
+    #  tags: [system]
+
+    # Apache Configuration
+    - name: Create document root
+      ansible.builtin.file:
+        path: "/var/www/{{ http_host }}"
+        state: directory
+        owner: "www-data"
+        group: "www-data"
+        mode: "0755"
+      tags: [apache]
+
+    - name: Set up Apache VirtualHost
+      ansible.builtin.template:
+        src: "files/apache.conf.j2"
+        dest: "/etc/apache2/sites-available/{{ http_conf }}"
+      notify: Reload Apache
+      tags: [apache]
+
+    - name: Enable rewrite module
+      ansible.builtin.shell: /usr/sbin/a2enmod rewrite
+      notify: Reload Apache
+      tags: [apache]
+
+    #- name: Enable new site
+    #  ansible.builtin.shell: /usr/sbin/a2ensite {{ http_conf }}
+    #  notify: Reload Apache
+    #  tags: [apache]
+
+    #- name: Disable default Apache site
+    #  ansible.builtin.shell: /usr/sbin/a2dissite 000-default.conf
+    #  notify: Restart Apache
+    #  tags: [apache]
+
+    # MySQL Configuration
+    - name: Ensure .my.cnf for root is present
+      ansible.builtin.template:
+        src: files/my.cnf.j2
+        dest: /root/.my.cnf
+        owner: root
+        mode: "0600"
+      tags: [mysql, mysql-root]
+
+    - name: Check if root password is already set
+      community.mysql.mysql_user:
+        name: root
+        password: "{{ mysql_root_password }}"
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+      check_mode: true
+      register: root_password_check
+      failed_when: false
+      tags: [mysql, mysql-root]
+
+    - name: Set the root password
+      community.mysql.mysql_user:
+        name: root
+        password: "{{ mysql_root_password }}"
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+      when: root_password_check is changed
+      tags: [mysql, mysql-root]
+
+    - name: Remove all anonymous user accounts
+      community.mysql.mysql_user:
+        name: ""
+        host_all: true
+        state: absent
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+      tags: [mysql]
+
+    - name: Remove the MySQL test database
+      community.mysql.mysql_db:
+        name: test
+        state: absent
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+      tags: [mysql]
+
+    - name: Creates database for WordPress
+      community.mysql.mysql_db:
+        name: "{{ mysql_db }}"
         state: present
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+      tags: [mysql]
+
+    - name: Create MySQL user for WordPress
+      community.mysql.mysql_user:
+        name: "{{ mysql_user }}"
+        password: "{{ mysql_password }}"
+        priv: "{{ mysql_db }}.*:ALL"
+        state: present
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+      tags: [mysql]
+
+    # WordPress Configuration
+    - name: Download and unpack latest WordPress
+      ansible.builtin.unarchive:
+        src: https://wordpress.org/latest.tar.gz
+        dest: "/var/www/{{ http_host }}"
+        remote_src: true
+        creates: "/var/www/{{ http_host }}/wordpress"
+      register: download_result
+      tags: [wordpress]
+
+    - name: Set ownership
+      ansible.builtin.file:
+        path: "/var/www/{{ http_host }}"
+        state: directory
+        recurse: true
+        owner: www-data
+        group: www-data
+      when: download_result.changed
+      tags: [wordpress]
+
+    - name: Set permissions for directories
+      ansible.builtin.shell: "/usr/bin/find /var/www/{{ http_host }}/wordpress/ -type d -exec chmod 777 {} \\;"
+      when: download_result.changed
+      tags: [wordpress]
+
+    - name: Set permissions for files
+      ansible.builtin.shell: "/usr/bin/find /var/www/{{ http_host }}/wordpress/ -type f -exec chmod 777 {} \\;"
+      when: download_result.changed
+      tags: [wordpress]
+
+    - name: Set up wp-config
+      ansible.builtin.template:
+        src: "files/wp-config.php.j2"
+        dest: "/var/www/{{ http_host }}/wordpress/wp-config.php"
+      when: download_result.changed
+      tags: [wordpress]
+
+    - name: Remove file (index.html)
+      ansible.builtin.file:
+        path: "/var/www/html/index.html"
+        state: absent
+      tags: [wordpress]
+      
+    - name: Remove folder (Plugins)
+      ansible.builtin.file:
+        path: "/var/www/{{ http_host }}/wordpress/wp-content/plugins"
+        state: absent
+      tags: [wordpress]
+      
+    - name: Remove folder (Themes)
+      ansible.builtin.file:
+        path: "/var/www/{{ http_host }}/wordpress/wp-content/themes"
+        state: absent
+      tags: [wordpress]
+      
+    - name: Create a symbolic link (Plugins)
+      ansible.builtin.file:
+        src: "/home/runner/gear5/www/html/wp-content/plugins"
+        dest: "/var/www/{{ http_host }}/wordpress/wp-content/plugins"
+        owner: www-data
+        group: www-data
+        state: link
+      tags: [wordpress]
+      
+    - name: Create a symbolic link (Themes)
+      ansible.builtin.file:
+        src: "/home/runner/gear5/www/html/wp-content/themes"
+        dest: "/var/www/{{ http_host }}/wordpress/wp-content/themes"
+        owner: www-data
+        group: www-data
+        state: link
+      tags: [wordpress]
+    
+    - name: Create a symbolic link (Uploads)
+      ansible.builtin.file:
+        src: "/home/runner/gear5/www/html/wp-content/uploads"
+        dest: "/var/www/{{ http_host }}/wordpress/wp-content/uploads"
+        owner: www-data
+        group: www-data
+        state: link
+      tags: [wordpress]
+    
+    - name: Create a symbolic link (Wordpress)
+      ansible.builtin.file:
+        src: "/var/www/{{ http_host }}/wordpress"
+        dest: "/var/www/html"
+        owner: www-data
+        group: www-data
+        state: link
+      tags: [wordpress]
+      
+    - name: Extract Backup
+      ansible.builtin.unarchive:
+        src: https://storage.googleapis.com/gear5_backup_bucket/dbbackup.tar.gz
+        dest: /tmp/
+        remote_src: true
+      tags: [mysql]
+
+    - name: Update WordPress URLs in the database dump
+      ansible.builtin.shell: sed -i "s|http://gear5.online|http://{{ lookup('env', 'INSTANCE_IP') }}|g" /tmp/wordpress.bak.sql
+      tags: [wordpress]
+    
+    - name: Update WordPress URLs in the database dump
+      ansible.builtin.shell: sed -i "s|https://gear5.online|https://{{ lookup('env', 'INSTANCE_IP') }}|g" /tmp/wordpress.bak.sql
+      tags: [wordpress]
+    
+    - name: Import .sql database
+      community.mysql.mysql_db:
+        name: "{{ mysql_db }}"
+        state: import
+        target: /tmp/wordpress.bak.sql
+
+  handlers:
+    - name: Reload Apache
+      ansible.builtin.service:
+        name: apache2
+        state: reloaded
+
+    - name: Restart Apache
+      ansible.builtin.service:
+        name: apache2
+        state: restarted
