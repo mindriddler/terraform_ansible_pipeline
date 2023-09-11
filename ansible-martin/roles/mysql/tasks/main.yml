@@ -1,0 +1,40 @@
+---
+# tasks file for mysql
+- name: Create MySQL database
+  mysql_db:
+    name: "{{ wp_mysql_db }}"
+    state: present
+  become: yes
+
+- name: Create MySQL user
+  mysql_user:
+    name: "{{ wp_mysql_user }}"
+    password: "{{ wp_mysql_password }}"
+    priv: "*.*:ALL"
+  become: yes
+
+- name: Ensure /var/backup directory exists
+  file:
+    path: /var/backup
+    state: directory
+  become: yes
+
+- name: Download Backup File
+  get_url:
+    url: https://storage.googleapis.com/gear5_backup_bucket/dbbackup.tar.gz
+    dest: /var/backup/dbbackup.tar.gz
+    validate_certs: no
+  become: yes
+
+- name: Extract Backup
+  unarchive:
+    src: /var/backup/dbbackup.tar.gz
+    dest: /tmp/
+    copy: no
+  become: yes
+
+- name: Import .sql database
+  mysql_db:
+    name: "{{ wp_mysql_db }}"
+    state: import
+    target: /tmp/wordpress.bak.sql

@@ -1,0 +1,14 @@
+---
+- hosts: test_server
+  gather_facts: False
+  become: yes
+
+  tasks:
+    - name: Include roles
+      include_role:
+        name: "{{ item }}"
+      with_items:
+        - server
+        - php
+        - mysql
+        - wordpress
