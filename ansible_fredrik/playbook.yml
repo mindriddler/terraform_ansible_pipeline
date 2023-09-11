@@ -287,6 +287,7 @@
         src: https://storage.googleapis.com/gear5_backup_bucket/dbbackup.tar.gz
         dest: /tmp/
         remote_src: true
+      when: download_result.changed
       tags: [mysql]
 
     - name: Update WordPress URLs in the database dump (HTTP)
@@ -294,12 +295,15 @@
         path: /tmp/wordpress.bak.sql
         regexp: "http://gear5.online"
         replace: "http://{{ lookup('env', 'INSTANCE_IP') }}"
+      when: download_result.changed
+      tags: [wordpress]
 
     - name: Update WordPress URLs in the database dump (HTTPS)
       ansible.builtin.replace:
         path: /tmp/wordpress.bak.sql
         regexp: "https://gear5.online"
         replace: "https://{{ lookup('env', 'INSTANCE_IP') }}"
+      when: download_result.changed
       tags: [wordpress]
 
     - name: Import .sql database
@@ -307,6 +311,7 @@
         name: "{{ mysql_db }}"
         state: import
         target: /tmp/wordpress.bak.sql
+      when: download_result.changed
 
   handlers:
     - name: Reload Apache
@@ -323,19 +328,9 @@
 - name: Run tests
   hosts: staging
   become: true
-  vars:
-    github_token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
 
   tasks:
-    - name: Chmod smtp.sh
-      ansible.builtin.file:
-        path: /home/runner/gear5/smtp.sh
-        mode: "0777"
-      tags: [tests]
-
     - name: Run tests
       ansible.builtin.shell:
-        cmd: "cd /home/runner/gear5 && ./smtp.sh"
-      environment:
-        GITHUB_TOKEN: "{{ github_token }}"
+        cmd: "cd /home/runner/gear5 && ./tests.sh"
       tags: [tests]

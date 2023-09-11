@@ -2,10 +2,9 @@
 name: Destroy staging server
 
 on:
-  workflow_run:
-    workflows: ["Staging Server"]
-    types:
-      - completed
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
