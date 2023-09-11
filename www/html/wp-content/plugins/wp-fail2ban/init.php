@@ -238,4 +238,3 @@ function init__late(): void
     do_action('wp_fail2ban_register');
 }
 add_action('init', __NAMESPACE__.'\init__late', PHP_INT_MAX);
-

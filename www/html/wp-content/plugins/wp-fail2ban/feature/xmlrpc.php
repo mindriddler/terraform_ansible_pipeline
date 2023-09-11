@@ -8,7 +8,7 @@
  */
 namespace    org\lecklider\charles\wordpress\wp_fail2ban\feature;
 
-use          org\lecklider\charles\wordpress\wp_fail2ban\Syslog;
+use org\lecklider\charles\wordpress\wp_fail2ban\Syslog;
 
 use function org\lecklider\charles\wordpress\wp_fail2ban\bail;
 use function org\lecklider\charles\wordpress\wp_fail2ban\core\remote_addr;
@@ -137,4 +137,3 @@ function xmlrpc_log(): void
         fclose($fp);
     }
 }
-

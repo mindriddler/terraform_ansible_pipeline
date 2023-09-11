@@ -237,4 +237,3 @@ class TabLogging extends TabLoggingBase
         );
     }
 }
-

@@ -27,7 +27,6 @@ if (!function_exists('fotawp_welcome_notice')) :
         $current_screen  = get_current_screen();
 
         if (is_admin() && !$meta) {
-
             if ($current_screen->id !== 'dashboard' && $current_screen->id !== 'themes') {
                 return;
             }
@@ -41,7 +40,7 @@ if (!function_exists('fotawp_welcome_notice')) :
             }
 
 
-?>
+            ?>
             <div class="fotawp-admin-notice notice notice-info is-dismissible content-install-plugin theme-info-notice">
                 <div class="theme-screen">
                     <img src="<?php echo esc_url(get_template_directory_uri() . '/inc/admin/images/dashboard_theme_screen.png'); ?>" />
@@ -60,8 +59,7 @@ if (!function_exists('fotawp_welcome_notice')) :
                 </div>
 
             </div>
-    <?php
-
+            <?php
         }
     }
 endif;

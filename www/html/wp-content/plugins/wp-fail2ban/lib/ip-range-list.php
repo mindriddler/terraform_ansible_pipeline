@@ -7,7 +7,7 @@
  */
 namespace    org\lecklider\charles\wordpress\wp_fail2ban;
 
-use          org\lecklider\charles\wordpress\wp_fail2ban\premium\WPf2b;
+use org\lecklider\charles\wordpress\wp_fail2ban\premium\WPf2b;
 
 /**
  * List of IP ranges.
@@ -76,11 +76,9 @@ class IpRangeList implements \ArrayAccess, \Countable, \Iterator
         if (is_string($ip)) {
             $bin = inet_pton($ip);
             $ver = null;
-
         } elseif (is_a($ip, __NAMESPACE__.'\IP')) {
             $bin = $ip->getIpN();
             $ver = $ip->getVersion();
-
         } else {
             throw new \InvalidArgumentException('Must be string or IP.');
         }
@@ -105,8 +103,7 @@ class IpRangeList implements \ArrayAccess, \Countable, \Iterator
         }
         foreach ($this->ranges as $ipRange) {
             if ($version == $ipRange->getVersion() &&
-                $ipRange->getIpN() == ($binIP & $ipRange->getNetmaskN()))
-            {
+                $ipRange->getIpN() == ($binIP & $ipRange->getNetmaskN())) {
                 return true;
             }
         }
@@ -276,4 +273,3 @@ class IpRangeList implements \ArrayAccess, \Countable, \Iterator
         return isset($this->ranges[$this->position]);
     }
 }
-

@@ -4,7 +4,7 @@
   * Slug: fotawp/header-minimal
   * Categories: fotawp, header
   */
-  ?>
+?>
 <!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|50","right":"var:preset|spacing|40","bottom":"var:preset|spacing|50","left":"var:preset|spacing|40"}}},"layout":{"type":"constrained","contentSize":"1180px"}} -->
 <div class="wp-block-group" style="padding-top: var(--wp--preset--spacing--50); padding-right: var(--wp--preset--spacing--40); padding-bottom: var(--wp--preset--spacing--50); padding-left: var(--wp--preset--spacing--40)">
   <!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->

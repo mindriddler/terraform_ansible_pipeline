@@ -146,4 +146,3 @@ class TabRemoteIPs extends TabBase
             : join("\n", array_map('trim', explode(',', $proxies)));
     }
 }
-

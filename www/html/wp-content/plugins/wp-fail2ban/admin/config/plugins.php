@@ -187,4 +187,3 @@ class TabPlugins extends TabLoggingBase
         $this->log('WP_FAIL2BAN_PLUGIN_LOG_OTHER', 'WP_FAIL2BAN_PLUGIN_OTHER_LOG');
     }
 }
-

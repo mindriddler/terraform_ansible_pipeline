@@ -37,4 +37,3 @@ function auto_update_plugin($update, $item)
     }
     return $update;
 }
-

@@ -10,7 +10,6 @@ namespace org\lecklider\charles\wordpress\wp_fail2ban;
 
 if (defined('PHPUNIT_COMPOSER_INSTALL')) {
     return;
-
 } elseif (!defined('ABSPATH')) {
     exit;
 }
@@ -381,7 +380,6 @@ class Config
             $wp_fail2ban['config'] = apply_filters(__METHOD__.'.config', array_merge($config, self::CONFIG));
 
             static::init();
-
         } elseif (!empty($config)) {
             $wp_fail2ban['config'] = array_merge($wp_fail2ban['config'], $config);
         }
@@ -500,10 +498,8 @@ class Config
     {
         if (false === $value) {
             return [];
-
         } elseif (is_array($value) || is_string($value)) {
             return $value;
-
         } else {
             throw new \InvalidArgumentException();
         }
@@ -661,10 +657,8 @@ class Config
 
             if (!array_key_exists('validate', $def)) {
                 throw new \UnexpectedValueException($define);
-
             } elseif (!($def['ndef'] = !defined($define))) { // defined($define)
                 self::$cache[$define] = $def['validate'](apply_filters($define, constant($define)));
-
             } else {
                 self::$cache[$define] = (isset($def['default']))
                     ? $def['validate'](apply_filters($define, $def['default']))
@@ -782,4 +776,3 @@ class Config
         }
     }
 }
-

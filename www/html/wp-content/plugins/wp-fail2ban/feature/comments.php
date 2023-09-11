@@ -10,8 +10,8 @@
  */
 namespace org\lecklider\charles\wordpress\wp_fail2ban\feature;
 
-use       org\lecklider\charles\wordpress\wp_fail2ban\Config;
-use       org\lecklider\charles\wordpress\wp_fail2ban\Syslog;
+use org\lecklider\charles\wordpress\wp_fail2ban\Config;
+use org\lecklider\charles\wordpress\wp_fail2ban\Syslog;
 
 defined('ABSPATH') or exit;
 
@@ -50,10 +50,8 @@ function _get_comment_attempt_log(): string
     // New setting defined, use new log
     if (true === Config::get('WP_FAIL2BAN_LOG_COMMENT_ATTEMPTS')) {
         return 'WP_FAIL2BAN_COMMENT_ATTEMPT_LOG';
-
     } elseif (Config::get('WP_FAIL2BAN_LOG_COMMENTS_EXTRA')) {
         return 'WP_FAIL2BAN_COMMENT_EXTRA_LOG';
-
     } else {
         return 'WP_FAIL2BAN_COMMENT_ATTEMPT_LOG';
     }
@@ -156,4 +154,3 @@ function comment_on_password_protected(int $comment_post_ID): void
 
     do_action(__FUNCTION__, $comment_post_ID);
 }
-

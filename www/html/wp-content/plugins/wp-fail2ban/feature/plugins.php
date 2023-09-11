@@ -8,7 +8,7 @@
  */
 namespace org\lecklider\charles\wordpress\wp_fail2ban\feature;
 
-use       org\lecklider\charles\wordpress\wp_fail2ban\Syslog;
+use org\lecklider\charles\wordpress\wp_fail2ban\Syslog;
 
 defined('ABSPATH') or exit;
 
@@ -293,4 +293,3 @@ function event2name(array $event2name): array
 
     return $event2name;
 }
-

@@ -115,7 +115,6 @@ abstract class Syslog
 
         if (false === \openlog($ident, $options, $facility)) {
             error_log('WPf2b: Cannot open syslog', 0); // @codeCoverageIgnore
-
         } else {
             if (defined('WP_FAIL2BAN_TRACE')) {
                 error_log('WPf2b: Opened syslog', 0); // @codeCoverageIgnore
@@ -206,4 +205,3 @@ abstract class Syslog
         return $rv;
     }
 }
-

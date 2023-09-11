@@ -15,4 +15,3 @@ defined('ABSPATH') or exit; // @codeCoverageIgnore
 class InvalidIpException extends \Exception
 {
 }
-

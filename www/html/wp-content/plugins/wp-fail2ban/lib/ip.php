@@ -10,7 +10,7 @@
  */
 namespace    org\lecklider\charles\wordpress\wp_fail2ban;
 
-use          org\lecklider\charles\wordpress\wp_fail2ban\InvalidIpException;
+use org\lecklider\charles\wordpress\wp_fail2ban\InvalidIpException;
 
 require_once __DIR__.'/invalid-ip-exception.php';
 require_once __DIR__.'/ip-range-list.php';
@@ -118,7 +118,6 @@ class IP
                         }
 
                         $this->valid = true;
-
                     } elseif ($throw) {
                         throw new InvalidIpException($msg);
                     }
@@ -301,4 +300,3 @@ class IP
         return $rv;
     }
 }
-

@@ -124,4 +124,3 @@ abstract class ConvertData
         return self::$FacilityName2Value;
     }
 }
-

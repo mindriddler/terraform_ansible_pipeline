@@ -7,7 +7,7 @@
  */
 namespace    org\lecklider\charles\wordpress\wp_fail2ban;
 
-use          org\lecklider\charles\wordpress\wp_fail2ban\premium\WPf2b;
+use org\lecklider\charles\wordpress\wp_fail2ban\premium\WPf2b;
 
 defined('ABSPATH') or exit;
 
@@ -94,12 +94,9 @@ function getAddonInfo(string $name, string $prefix, string $free, string $premiu
         $html = (function_exists($fn))
             ? $fn()
             : sprintf('<p>%s.</p>', __('Active', 'wp-fail2ban'));
-
     } elseif (file_exists(WP_PLUGIN_DIR."/{$free}/addon.php") ||
-              file_exists(WP_PLUGIN_DIR."/{$premium}/addon.php"))
-    {
+              file_exists(WP_PLUGIN_DIR."/{$premium}/addon.php")) {
         $html = sprintf('<p><span class="inactive">%s.</span></p>', __('Inactive', 'wp-fail2ban'));
-
     } else {
         $html = "<p>$desc</p><p>";
         $html .= sprintf(
@@ -196,7 +193,6 @@ function getDbInfo(): string
 <p><span class="wpf2b-ok"><span class="dashicons dashicons-yes"></span> %s:</span> %s</p>
 HTML;
         $html =sprintf($fmt, __('OK'), strip_tags($results['description']));
-
     } else {
         $fmt = <<<HTML
 <p class="error">%s</p>
@@ -327,14 +323,14 @@ function about(): void
             <div class="inside">
               <h3>Status</h3>
               <dl>
-                <?php if (wf_fs()->can_use_premium_code()): ?>
+                <?php if (wf_fs()->can_use_premium_code()) : ?>
                 <dt><?=__('Database table', 'wp-fail2ban')?></dt>
                 <dd><?=$info['db']?></dd>
                 <dt><?=__('Cloudflare IPs', 'wp-fail2ban')?></dt>
                 <dd><?=$info['cloudflare']?></dd>
                 <?php endif; ?>
 
-                <?php if (!defined('WP_FAIL2BAN_SITE_HEALTH_SKIP_FILTERS')): ?>
+                <?php if (!defined('WP_FAIL2BAN_SITE_HEALTH_SKIP_FILTERS')) : ?>
                 <dt>Filters</dt>
                 <dd>
                     <ul class="filters"><?php
@@ -424,7 +420,7 @@ function logo_box(array $args): void
             <h1><?=$args['title']?></h1>
             <div class="links">
               <ul>
-    <?php foreach ($args['links'] as $name => $url): ?>
+    <?php foreach ($args['links'] as $name => $url) : ?>
                 <li><a href="<?=$url?>" rel="noopener" target="_blank"><?=$name?></a></li>
     <?php endforeach; ?>
               </ul>

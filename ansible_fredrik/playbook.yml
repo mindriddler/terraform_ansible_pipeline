@@ -1,34 +1,34 @@
 ---
-#- name: Update
-# hosts: staging
-# become: true
+- name: Update
+  hosts: staging
+  become: true
 
-#  tasks:
-    #- name: Update and upgrade apt packages
-    #  ansible.builtin.apt:
-    #    upgrade: true
-    #    update_cache: true
-    #    cache_valid_time: 86400
+  tasks:
+    - name: Update and upgrade apt packages
+      ansible.builtin.apt:
+        upgrade: true
+        update_cache: true
+        cache_valid_time: 86400
 
-#- name: Add Google Cloud SDK key
-#  hosts: staging
-#  become: true
+# - name: Setup Google Cloud SDK
+#   hosts: staging
+#   become: true
 
-#  tasks:
-#    - name: Add Google Cloud SDK apt key
-#      ansible.builtin.apt_key:
-#        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
-#        state: present
+#   tasks:
+#     - name: Add Google Cloud SDK apt key
+#       ansible.builtin.apt_key:
+#         url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+#         state: present
 
-#    - name: Add Google Cloud SDK apt repository
-#      ansible.builtin.apt_repository:
-#        repo: "deb http://packages.cloud.google.com/apt cloud-sdk main"
-#        state: present
+#     - name: Add Google Cloud SDK apt repository
+#       ansible.builtin.apt_repository:
+#         repo: "deb http://packages.cloud.google.com/apt cloud-sdk main"
+#         state: present
 
-    # - name: Install Google Cloud SDK
-    #   ansible.builtin.apt:
-    #     name: google-cloud-sdk
-    #     state: present
+#     - name: Install Google Cloud SDK
+#       ansible.builtin.apt:
+#         name: google-cloud-sdk
+#         state: present
 
 - name: Clone repository
   hosts: staging
@@ -41,43 +41,52 @@
         state: absent
     - name: Clone private repository
       ansible.builtin.git:
-        repo: https://x-access-token:{{ lookup('env', 'GITHUB_TOKEN') }}@github.com/mindriddler/gear5.git
+        repo: https://x-access-token:{{ lookup('env', 'GITHUB_TOKEN') }}@github.com/SamanPetfat/gear5.git
         dest: /home/runner/gear5
-        version: main
+        version: staging
 
-- name: Install required packages
+- name: Install prerequisites
   hosts: staging
   become: true
   vars_files:
     - vars/default.yml
 
   tasks:
-    #- name: Install prerequisites
-    #  ansible.builtin.apt:
-    #    name: aptitude
-    #    state: present
-    #  tags: [system]
+    - name: Install prerequisites
+      ansible.builtin.apt:
+        name: aptitude
+        state: present
+      tags: [system]
 
-    #- name: Install LAMP packages
-    #  ansible.builtin.apt:
-    #    name: "{{ item }}"
-    #    state: present
-    #  loop:
-    #    - apache2
-    #    - mysql-server
-    #    - python3-pymysql
-    #    - php
-    #    - php-mysql
-    #    - libapache2-mod-php
-    #  tags: [system]
+    - name: Install LAMP packages
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - apache2
+        - mysql-server
+        - python3-pymysql
+        - php
+        - php-mysql
+        - libapache2-mod-php
+        - jq
+        - swaks
+      tags: [system]
 
-    #- name: Install PHP Extensions
-    #  ansible.builtin.apt:
-    #    name: "{{ item }}"
-    #    state: present
-    #  loop: "{{ php_modules }}"
-    #  tags: [system]
+    - name: Install PHP Extensions
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ php_modules }}"
+      tags: [system]
 
+- name: Configure Staging
+  hosts: staging
+  become: true
+  vars_files:
+    - vars/default.yml
+
+  tasks:
     # Apache Configuration
     - name: Create document root
       ansible.builtin.file:
@@ -97,18 +106,18 @@
 
     - name: Enable rewrite module
       ansible.builtin.shell: /usr/sbin/a2enmod rewrite
-      notify: Reload Apache
+      notify: Restart Apache
       tags: [apache]
 
-    #- name: Enable new site
-    #  ansible.builtin.shell: /usr/sbin/a2ensite {{ http_conf }}
-    #  notify: Reload Apache
-    #  tags: [apache]
+    # - name: Enable new site
+    #   ansible.builtin.shell: /usr/sbin/a2ensite {{ http_conf }}
+    #   notify: Reload Apache
+    #   tags: [apache]
 
-    #- name: Disable default Apache site
-    #  ansible.builtin.shell: /usr/sbin/a2dissite 000-default.conf
-    #  notify: Restart Apache
-    #  tags: [apache]
+    # - name: Disable default Apache site
+    #   ansible.builtin.shell: /usr/sbin/a2dissite 000-default.conf
+    #   notify: Restart Apache
+    #   tags: [apache]
 
     # MySQL Configuration
     - name: Ensure .my.cnf for root is present
@@ -134,7 +143,7 @@
         name: root
         password: "{{ mysql_root_password }}"
         login_unix_socket: /var/run/mysqld/mysqld.sock
-      when: root_password_check is changed
+      when: root_password_check.changed
       tags: [mysql, mysql-root]
 
     - name: Remove all anonymous user accounts
@@ -209,24 +218,20 @@
       when: download_result.changed
       tags: [wordpress]
 
-    - name: Remove file (index.html)
+    - name: Remove folder (html)
       ansible.builtin.file:
-        path: "/var/www/html/index.html"
+        path: "/var/www/html"
         state: absent
+      when: download_result.changed
       tags: [wordpress]
-      
+
     - name: Remove folder (Plugins)
       ansible.builtin.file:
         path: "/var/www/{{ http_host }}/wordpress/wp-content/plugins"
         state: absent
+      register: plugins_result
       tags: [wordpress]
-      
-    - name: Remove folder (Themes)
-      ansible.builtin.file:
-        path: "/var/www/{{ http_host }}/wordpress/wp-content/themes"
-        state: absent
-      tags: [wordpress]
-      
+
     - name: Create a symbolic link (Plugins)
       ansible.builtin.file:
         src: "/home/runner/gear5/www/html/wp-content/plugins"
@@ -235,7 +240,14 @@
         group: www-data
         state: link
       tags: [wordpress]
-      
+
+    - name: Remove folder (Themes)
+      ansible.builtin.file:
+        path: "/var/www/{{ http_host }}/wordpress/wp-content/themes"
+        state: absent
+      register: themes_result
+      tags: [wordpress]
+
     - name: Create a symbolic link (Themes)
       ansible.builtin.file:
         src: "/home/runner/gear5/www/html/wp-content/themes"
@@ -244,7 +256,13 @@
         group: www-data
         state: link
       tags: [wordpress]
-    
+
+    - name: Remove folder (Uploads)
+      ansible.builtin.file:
+        path: "/var/www/{{ http_host }}/wordpress/wp-content/uploads"
+        state: absent
+      tags: [wordpress]
+
     - name: Create a symbolic link (Uploads)
       ansible.builtin.file:
         src: "/home/runner/gear5/www/html/wp-content/uploads"
@@ -253,7 +271,7 @@
         group: www-data
         state: link
       tags: [wordpress]
-    
+
     - name: Create a symbolic link (Wordpress)
       ansible.builtin.file:
         src: "/var/www/{{ http_host }}/wordpress"
@@ -261,8 +279,9 @@
         owner: www-data
         group: www-data
         state: link
+      when: download_result.changed
       tags: [wordpress]
-      
+
     - name: Extract Backup
       ansible.builtin.unarchive:
         src: https://storage.googleapis.com/gear5_backup_bucket/dbbackup.tar.gz
@@ -270,14 +289,19 @@
         remote_src: true
       tags: [mysql]
 
-    - name: Update WordPress URLs in the database dump
-      ansible.builtin.shell: sed -i "s|http://gear5.online|http://{{ lookup('env', 'INSTANCE_IP') }}|g" /tmp/wordpress.bak.sql
+    - name: Update WordPress URLs in the database dump (HTTP)
+      ansible.builtin.replace:
+        path: /tmp/wordpress.bak.sql
+        regexp: "http://gear5.online"
+        replace: "http://{{ lookup('env', 'INSTANCE_IP') }}"
+
+    - name: Update WordPress URLs in the database dump (HTTPS)
+      ansible.builtin.replace:
+        path: /tmp/wordpress.bak.sql
+        regexp: "https://gear5.online"
+        replace: "https://{{ lookup('env', 'INSTANCE_IP') }}"
       tags: [wordpress]
-    
-    - name: Update WordPress URLs in the database dump
-      ansible.builtin.shell: sed -i "s|https://gear5.online|https://{{ lookup('env', 'INSTANCE_IP') }}|g" /tmp/wordpress.bak.sql
-      tags: [wordpress]
-    
+
     - name: Import .sql database
       community.mysql.mysql_db:
         name: "{{ mysql_db }}"
@@ -294,3 +318,24 @@
       ansible.builtin.service:
         name: apache2
         state: restarted
+
+
+- name: Run tests
+  hosts: staging
+  become: true
+  vars:
+    github_token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
+
+  tasks:
+    - name: Chmod smtp.sh
+      ansible.builtin.file:
+        path: /home/runner/gear5/smtp.sh
+        mode: "0777"
+      tags: [tests]
+
+    - name: Run tests
+      ansible.builtin.shell:
+        cmd: "cd /home/runner/gear5 && ./smtp.sh"
+      environment:
+        GITHUB_TOKEN: "{{ github_token }}"
+      tags: [tests]

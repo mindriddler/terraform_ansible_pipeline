@@ -8,11 +8,11 @@
  */
 namespace    org\lecklider\charles\wordpress\wp_fail2ban\core;
 
-use          org\lecklider\charles\wordpress\wp_fail2ban\Config;
-use          org\lecklider\charles\wordpress\wp_fail2ban\InvalidIpException;
-use          org\lecklider\charles\wordpress\wp_fail2ban\IpRangeList;
-use          org\lecklider\charles\wordpress\wp_fail2ban\IP;
-use          org\lecklider\charles\wordpress\wp_fail2ban\Syslog;
+use org\lecklider\charles\wordpress\wp_fail2ban\Config;
+use org\lecklider\charles\wordpress\wp_fail2ban\InvalidIpException;
+use org\lecklider\charles\wordpress\wp_fail2ban\IpRangeList;
+use org\lecklider\charles\wordpress\wp_fail2ban\IP;
+use org\lecklider\charles\wordpress\wp_fail2ban\Syslog;
 
 use function org\lecklider\charles\wordpress\wp_fail2ban\bail;
 
@@ -43,13 +43,11 @@ function _remote_addr(): ?IP
                 if (0 == count($proxies)) {
                     // No proxies set; don't care about the header
                     return $ip;
-
                 } elseif ($proxies->containsIP($ip)) {
                     // From a known proxy
 
                     $xIPs = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'], 2);
                     return new IP($xIPs[0], true, 'HTTP_X_FORWARDED_FOR');
-
                 } else {
                     // Not a known proxy: hard fail and bail out
                     Syslog::single(LOG_NOTICE, 'Untrusted X-Forwarded-For header', 'WP_FAIL2BAN_AUTH_LOG', (string)$ip);
@@ -58,11 +56,9 @@ function _remote_addr(): ?IP
 
                     bail();
                 }
-
             } else {
                 return $ip;
             }
-
         } else {
             /**
              * For plugins and themes that anonymise requests
@@ -71,7 +67,6 @@ function _remote_addr(): ?IP
              */
             return new IP(WP_FAIL2BAN_REMOTE_ADDR, true, 'WP_FAIL2BAN_REMOTE_ADDR'); // @codeCoverageIgnore
         }
-
     } catch (InvalidIpException $e) {
         error_log(sprintf("%s is invalid: '%s'", $e->getMessage(), $_SERVER['REMOTE_ADDR']));
         \wp_die('Internal server error', 'Internal server error', ['exit' => !defined('PHPUNIT_COMPOSER_INSTALL'), 'response' => 500]);
@@ -183,7 +178,6 @@ function wp_login_failed(string $username): void
     if (empty($username)) {
         $msg    = 'Empty username';
         $filter = '::empty';
-
     } else {
         global $wp_xmlrpc_server;
 
@@ -209,4 +203,3 @@ function wp_login_failed(string $username): void
 
     do_action(__FUNCTION__, $username);
 }
-

@@ -175,4 +175,3 @@ class TabBlock extends TabBase
         $this->checkbox('WP_FAIL2BAN_BLOCK_USERNAME_LOGIN');
     }
 }
-

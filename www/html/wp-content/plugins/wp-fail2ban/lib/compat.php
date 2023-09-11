@@ -152,4 +152,3 @@ namespace org\lecklider\charles\wordpress\wp_fail2ban {
         return (string)core\remote_addr();
     }
 }
-

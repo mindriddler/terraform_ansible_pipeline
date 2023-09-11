@@ -104,15 +104,13 @@ function readme(string $ver, string $file): void
             }
             if ($inChangelog) {
                 if (preg_match('/^= (.*) =$/', $line, $matches) &&
-                    ('Develop' == $matches[1] || substr($matches[1], 0, strlen($ver)) == $ver))
-                {
+                    ('Develop' == $matches[1] || substr($matches[1], 0, strlen($ver)) == $ver)) {
                     if ($inList) {
                         echo "</ul></dd>\n";
                     }
                     echo "<dt>{$matches[1]}</dt>\n";
                     echo "<dd><ul>\n";
                     $inList = true;
-
                 } elseif (preg_match('/^(\s*)\* (.*)$/', $line, $matches)) {
                     $li = $matches[2];
                     $li = preg_replace('/\[(.*?)\]\((.*?)\)(\.)?/', '<a href="$2" target="_blank" rel="noopener">$1 <span class="dashicons dashicons-external"></span></a>', $li);
@@ -132,7 +130,6 @@ function readme(string $ver, string $file): void
                         $inSubList = false;
                     }
                     echo "<li>{$li}</li>\n";
-
                 } else {
                     if ($inList) {
                         echo "</ul></dd>\n";
@@ -332,8 +329,7 @@ function admin_menu_fix(): void
 function plugin_action_links(array $actions, string $plugin_file, ?array $plugin_data, string $context): array
 {
     if (preg_match("|$plugin_file\$|", WP_FAIL2BAN_FILE) &&
-        (!is_multisite() || is_network_admin()))
-    {
+        (!is_multisite() || is_network_admin())) {
         foreach (get_mu_plugins() as $plugin => $data) {
             if (0 === strpos($data['Name'], 'WP fail2ban')) {
                 // MU plugin
@@ -359,16 +355,14 @@ function plugin_action_links(array $actions, string $plugin_file, ?array $plugin
 
         // No settings tabs for ClassicPress + Free
         if (function_exists('\add_security_page') &&
-            !wf_fs()->can_use_premium_code())
-        {
+            !wf_fs()->can_use_premium_code()) {
             return $actions;
         }
 
         if (!wf_fs()->is_activation_mode() &&
             (!wf_fs()->can_use_premium_code() ||
             ((is_multisite() && wf_fs()->is_plan_or_trial('silver')) ||
-            (!is_multisite() && wf_fs()->is_plan_or_trial('bronze')))))
-        {
+            (!is_multisite() && wf_fs()->is_plan_or_trial('bronze'))))) {
             $settings = sprintf(
                 '<a href="%s?page=wpf2b-settings&tab=about" title="%s">%s</a>',
                 network_admin_url('admin.php'),
@@ -402,8 +396,7 @@ function admin_head_dashboard(): void
     $content = '';
 
     if ((!is_multisite() && current_user_can('manage_options')) ||
-        (is_network_admin() && current_user_can('manage_network_options')))
-    {
+        (is_network_admin() && current_user_can('manage_network_options'))) {
         $message = __('Shows the last 5 messages sent to <code>syslog</code> - provides simple status at a glance and can be helpful for debugging.', 'wp-fail2ban');
         if (!wf_fs()->can_use_premium_code()) {
             $message .= sprintf(
@@ -428,4 +421,3 @@ function admin_head_dashboard(): void
     }
 }
 add_action('admin_head-index.php', __NAMESPACE__.'\admin_head_dashboard', 9999);
-

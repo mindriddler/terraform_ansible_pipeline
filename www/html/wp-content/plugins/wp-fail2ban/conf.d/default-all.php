@@ -30,18 +30,19 @@ define('WP_FAIL2BAN_STANDARD_CONFIG_FILE', __FILE__);
 //  define('WP_FAIL2BAN_COMMENT_LOG', LOG_USER);
 
     // This include is needed if you want extra comment logging
-    if (include __DIR__.'/plugins/wp-fail2ban/lib/constants.php') {
-        // The default is LOG_AUTH:
+if (include __DIR__.'/plugins/wp-fail2ban/lib/constants.php') {
+    // The default is LOG_AUTH:
     //  define('WP_FAIL2BAN_COMMENT_EXTRA_LOG', LOG_AUTH);
 
-        define('WP_FAIL2BAN_LOG_COMMENTS_EXTRA',
-            WPF2B_EVENT_COMMENT_NOT_FOUND |
-            WPF2B_EVENT_COMMENT_CLOSED |
-            WPF2B_EVENT_COMMENT_TRASH |
-            WPF2B_EVENT_COMMENT_DRAFT |
-            WPF2B_EVENT_COMMENT_PASSWORD
-        );
-    }
+    define(
+        'WP_FAIL2BAN_LOG_COMMENTS_EXTRA',
+        WPF2B_EVENT_COMMENT_NOT_FOUND |
+        WPF2B_EVENT_COMMENT_CLOSED |
+        WPF2B_EVENT_COMMENT_TRASH |
+        WPF2B_EVENT_COMMENT_DRAFT |
+        WPF2B_EVENT_COMMENT_PASSWORD
+    );
+}
 
 /// Spam
     define('WP_FAIL2BAN_LOG_SPAM', true);
@@ -170,4 +171,3 @@ define('WP_FAIL2BAN_STANDARD_CONFIG_FILE', __FILE__);
     define('WP_FAIL2BAN_PLUGIN_LOG_XMLRPC', true);
     // The default is LOG_USER:
 //  define('WP_FAIL2BAN_PLUGIN_XMLRPC_LOG', LOG_USER);
-

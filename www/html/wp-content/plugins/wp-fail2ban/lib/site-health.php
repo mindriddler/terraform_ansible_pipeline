@@ -227,7 +227,6 @@ class SiteHealth
             if (is_dir($path)) {
                 $fail2ban_path = $path;
             }
-
         } else {
             $paths = [
                 '/etc/fail2ban/'.$suffix,
@@ -278,8 +277,7 @@ class SiteHealth
                             case 'soft':
                                 // [soft] Comment attempt on .* post \d+
                                 if (Config::get('WP_FAIL2BAN_LOG_COMMENT_ATTEMPTS') ||
-                                    Config::get('WP_FAIL2BAN_LOG_COMMENTS_EXTRA') > 0)
-                                {
+                                    Config::get('WP_FAIL2BAN_LOG_COMMENTS_EXTRA') > 0) {
                                     $reasons[] = __('Attempted comments will not be blocked.', 'wp-fail2ban');
                                     $rv = true;
                                 }
@@ -320,7 +318,6 @@ class SiteHealth
         if (false === $failures) {
             if (null === ($filter_d = self::get_fail2ban_path('filter.d'))) {
                 $failures = null;
-
             } else {
                 $failures = [];
                 $filter_files = [
@@ -339,10 +336,8 @@ class SiteHealth
 
                         if ($installed_file == $local_file) {
                             // OK - identical
-
                         } elseif (array_key_exists($installed_file, WP_FAIL2BAN_HASHES) &&
-                                  array_key_exists($filter, WP_FAIL2BAN_HASHES[$installed_file]))
-                        {
+                                  array_key_exists($filter, WP_FAIL2BAN_HASHES[$installed_file])) {
                             $ver = WP_FAIL2BAN_HASHES[$installed_file][$filter];
                             $reasons = [];
                             switch ($this->check_filter_needs_update($ver, $filter, $reasons)) {
@@ -365,7 +360,6 @@ class SiteHealth
                                     // OK - compatible
                                     break;
                             }
-
                         } else {
                             $failures[$filter] = [
                                 'status' => 'custom',
@@ -452,7 +446,6 @@ class SiteHealth
                 );
             }
             $results['description'] .= '<pre>'.join("\n", $output).'</pre>';
-
         } else {
             // for now don't try anything else
             return false;
@@ -559,10 +552,8 @@ class SiteHealth
                 ),
                 __('Configuring the Site Health tool', 'wp-fail2ban')
             );
-
         } elseif (empty($failures)) {
             // Good - nothing to do
-
         } elseif ($status['obsolete']) {
             $results['label'] = __('One or more of your fail2ban filters are obsolete', 'wp-fail2ban');
             $results['status'] = 'critical';
@@ -594,7 +585,6 @@ class SiteHealth
             $output .= '</ul>';
             $output .= $this->update_filters_asap();
             $results['description'] = $output;
-
         } elseif (($status['old'])) {
             $results['label'] = __('One or more of your fail2ban filters are out of date', 'wp-fail2ban');
             $results['status'] = 'recommended';
@@ -619,10 +609,8 @@ class SiteHealth
             $output .= '</ul>';
             $output .= $this->update_filters_asap(false);
             $results['description'] = $output;
-
         } elseif ($status['custom']) {
             $results['status'] = 'custom';
-
         } elseif ($status['partial']) {
             $results['status'] = 'partial';
         }
@@ -665,7 +653,6 @@ class SiteHealth
 
         if (empty($failures)) {
             // Good - nothing to do
-
         } elseif ($status['custom']) {
             $results['label'] = 'One or more of your filters have been modified';
             $results['status'] = 'recommended';
@@ -733,7 +720,6 @@ class SiteHealth
 
         if (empty($failures)) {
             // Good - nothing to do
-
         } elseif ($status['partial']) {
             $results['label'] = 'One or more of your filters are missing';
             $results['status'] = 'recommended';
@@ -795,7 +781,6 @@ class SiteHealth
             $results['label']       = __('Blocklist is installed and activated', 'wp-fail2ban');
             $results['status']      = 'good';
             $results['description'] = '';
-
         } else {
             $results['status'] = 'recommended';
             $installed = false;
@@ -817,7 +802,6 @@ class SiteHealth
                     __('Activate WP fail2ban Blocklist', 'wp-fail2ban'),
                     __('Get support', 'wp-fail2ban')
                 );
-
             } else {
                 $results['label']       = __('The Blocklist add-on is not installed', 'wp-fail2ban');
                 $results['description'] = sprintf(
@@ -869,7 +853,6 @@ class SiteHealth
             $results['label']       = sprintf(__('%s is installed and activated', 'wp-fail2ban'), $params['name']);
             $results['status']      = 'good';
             $results['description'] = '';
-
         } else {
             $results['status'] = 'recommended';
             $installed = false;
@@ -890,7 +873,6 @@ class SiteHealth
                     esc_url(wp_nonce_url(network_admin_url("plugins.php?action=activate&plugin={$plugin}"), 'activate-plugin_'.$plugin)),
                     sprintf(__('Activate the %s add-on', 'wp-fail2ban'), $params['name'])
                 );
-
             } else {
                 $results['label']       = sprintf(__('The %s is not installed', 'wp-fail2ban'), $params['name']);
                 $results['description'] = $params['missing']['description'];
@@ -964,4 +946,3 @@ class SiteHealth
         return $results;
     }
 }
-

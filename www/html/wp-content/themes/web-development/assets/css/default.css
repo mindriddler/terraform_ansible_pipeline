@@ -74,7 +74,7 @@ a {
     background: none;
     float: right;
     margin-bottom: -1px;
-    margin-right:20px; 
+    margin-right:20px;
     padding-top: 15px
 }
 ul.first_menu li:last-child {
@@ -172,7 +172,7 @@ ul.sub-menu .submenu-left {
     transform: translateY(10px);
     opacity: 0;
     visibility: hidden;
-    display: none;    
+    display: none;
     transition: all 0.3s linear;
     position: absolute;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 2px 3px rgba(0, 0, 0, 0.1);
@@ -553,7 +553,7 @@ div#top-bar ul li>i {
 table tr td, table tr th {
     border: 1px solid #ddd;
     padding: 5px;
-} 
+}
 .widget_calendar table tr td, .widget_calendar table tr th {
     border: 0;
 }
@@ -575,7 +575,7 @@ footer h4,footer p.widget-title {
 .team_block_text img {
     width: 100%;
     height: auto;
-} 
+}
 .sticky{}
 .bypostauthor{}
 .wp-caption.aligncenter{}
@@ -806,7 +806,7 @@ footer {
     right: 22px;
 }
 #home-slider .owl-dots .owl-dot.active span,#home-slider .owl-dots .owl-dot:hover span {
-    background: #e81700; 
+    background: #e81700;
 }
 .icon-box i {
     font-weight: 700;
@@ -946,7 +946,7 @@ section.testimonial_bg {
     position: relative;
     background-repeat: no-repeat;
     background-size: 100% 100%;
-} 
+}
 
 /* ---------------- End sticky header css ------*/
 .social a {
@@ -970,7 +970,7 @@ section.testimonial_bg {
     float: left;
     width: 100%;
     margin-top: -74px;
-} 
+}
 nav#site-navigation {
     margin-top: 22px;
 }
@@ -1071,7 +1071,7 @@ div#home-slider .owl-prev {
 .owl-prev i, .owl-next i {
     color: #fff;
     font-size: 22px;
-} 
+}
 div#home-slider .owl-next {
     left: auto!important;
     right: 0px!important;
@@ -1385,7 +1385,7 @@ position: absolute;
     left: 0;
     right: 0;
     text-align: center;
-        background-color: rgba(0, 0, 0, 0.6);   
+        background-color: rgba(0, 0, 0, 0.6);
 }
 .custom_overlay_inner {
     position: absolute;
@@ -1405,7 +1405,7 @@ position: absolute;
     color: #fff;
 }
  
-.custom_overlay p { 
+.custom_overlay p {
     color: #f1f1f1;
     line-height: 24px;
     font-size: 18px;
@@ -1466,7 +1466,7 @@ a.read_more {
     color: #000;
     text-decoration: none;
     font-size: 20px;
-    background-color: #fff; 
+    background-color: #fff;
 }
 
 .more a:hover {
@@ -1494,7 +1494,7 @@ a.read_more {
 }
 .comments ul li.comment {
     list-style: none;
-} 
+}
 .site-content table tr td, .site-content table tr th,.comment-content table tr th,.comment-content table tr td {
     border: 1px solid #ddd;
     padding: 6px;
@@ -1528,7 +1528,7 @@ a.read_more {
     margin-bottom: 20px;
     float: left;
     width: 100%;
-} 
+}
 .comments-list li.comment {
     list-style: none;
 }
@@ -1650,7 +1650,7 @@ img.alignnone {
 .blog_sec .widget ul li:hover,.blog_sec .widget ul li:hover a {
     color: #e81700;
     text-decoration: none;
-} 
+}
 p.form-submit input[type=submit] {
     float: left;
     width: auto;
@@ -1745,7 +1745,7 @@ ul#breadcrumbs {
     color: #fff;
     text-transform: uppercase;
     word-break: break-all;
-} 
+}
 .cats.mb {
     float: left;
     width: 100%;
@@ -1766,7 +1766,7 @@ ul#breadcrumbs {
     font-weight: 700;
     text-transform: capitalize;
     font-style: normal;
-} 
+}
 .scroll_top .fa-arrow-up:before {
     content: "\f062";
     top: 6px;
@@ -1803,7 +1803,7 @@ ul#breadcrumbs {
     font-style: normal;
     float: left;
     width: 100%;
-} 
+}
 .sidebar .widget_rss ul li {
     font-size: 14px;
     line-height: 18px;
@@ -1921,8 +1921,8 @@ div#home-slider .owl-nav {
     padding: 4px 2px;
     font-style: normal;
     outline: none;
-} 
-footer .footer-list img { 
+}
+footer .footer-list img {
     width: 100%;
     height: auto;    max-width: 250px;
 }
@@ -2080,7 +2080,7 @@ footer .widget_rss.footer-list ul li {
     text-align: justify;
     float: left;
     width: 100%;
-} 
+}
 .blog_text span.post-tag {
     float: left;
     width: 100%;
@@ -2161,7 +2161,7 @@ section.our_overview {
 /*------------------- TABLET ------------------*/
 @media only screen and ( min-width: 600px ) and ( max-width: 999px ) {
     .custom_overlay h4 { font-size: 80%;}
-    .custom_overlay p { 
+    .custom_overlay p {
         font-size: 85%;
         line-height: 1.2em;
     }
@@ -2172,7 +2172,7 @@ section.our_overview {
     text-align: left;
 }
 }
-@media only screen and ( min-width: 768px ) and ( max-width: 1001px ) { 
+@media only screen and ( min-width: 768px ) and ( max-width: 1001px ) {
 
  .banner_text {
     position: absolute;
@@ -2193,7 +2193,7 @@ section.our_overview {
 @media only screen and ( max-width: 761px ) {
     
 
-.banner {  
+.banner {
     margin-top: 0;
     position: relative;
 }
@@ -2224,7 +2224,7 @@ section.our_overview {
 
 .scroll_top span {
     font-size: 14px;
-    padding: 6px; 
+    padding: 6px;
 }
 
 ul#breadcrumbs {
@@ -2300,10 +2300,10 @@ section.testimonial_bg {
     text-align: center;
     float: left;
     width: 100%;
-    border: 1px solid #ddd; 
+    border: 1px solid #ddd;
     padding: 10px;
     min-height: 190px;    font-weight: bold;
-} 
+}
 
 .box span {
     color: #e81700;

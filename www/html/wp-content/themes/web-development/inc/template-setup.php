@@ -1,11 +1,12 @@
 <?php
-/** 
+/**
  * @package Web Development
  */
 // TGM plugin register filter .
 add_action('tgmpa_register', 'web_development_required_plugins');
 
-function web_development_required_plugins() {
+function web_development_required_plugins()
+{
     if (class_exists('TGM_Plugin_Activation')) {
         $plugins = array(
             array(

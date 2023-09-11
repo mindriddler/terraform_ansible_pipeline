@@ -23,22 +23,22 @@ jobs:
     - name: Run PHP_CodeSniffer Fixer
       run: |
         phpcbf --standard=PSR2 . --ignore=vendor/* || echo "PHPCBF could not fix all violations"
-    
-    - name: Commit changes
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add -A
-        git commit -m "Apply PHPCBF fixes" || echo "No changes to commit"
 
     - name: Create Pull Request
+      id: create-pr
       uses: peter-evans/create-pull-request@v5
       with:
+        author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+        delete-branch: true
+        committer: GitHub <noreply@github.com>
         title: 'Automated PHPCBF Fixes'
         commit-message: 'Apply PHPCBF fixes'
         branch: 'phpcbf-fixes'
-        base: ${{ github.head_ref }}
         token: ${{ secrets.PHPLINT_TOKEN }}
+        base: ${{ github.head_ref }}
+        labels: |
+          phpcbf
+          automated
 
     
     - name: Run PHP_CodeSniffer

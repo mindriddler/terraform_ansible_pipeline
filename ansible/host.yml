@@ -4,4 +4,4 @@ all:
     test_server:
       ansible_host: 165.22.78.38
       ansible_user: root
-      ansible_ssh_private_key_file: /home/martin/.ssh/id_rsa 
+      ansible_ssh_private_key_file: /home/martin/.ssh/id_rsa

@@ -4,7 +4,7 @@
   * Slug: fotawp/magazine-section-one
   * Categories: fotawp
   */
-  ?>
+?>
 <!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|70","right":"var:preset|spacing|50","bottom":"var:preset|spacing|70","left":"var:preset|spacing|50"}}},"backgroundColor":"tertiary-light","layout":{"type":"constrained","contentSize":"1180px"}} -->
 <div class="wp-block-group has-tertiary-light-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--70);padding-left:var(--wp--preset--spacing--50)"><!-- wp:columns -->
 <div class="wp-block-columns"><!-- wp:column {"width":"60%"} -->

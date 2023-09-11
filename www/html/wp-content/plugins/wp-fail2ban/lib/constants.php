@@ -177,4 +177,3 @@ define('WPF2B_FACILITY_LOG_AUTH', (defined('WP_FAIL2BAN_USE_AUTHPRIV') && true =
 define('WPF2B_FACILITY_LOG_USER', (defined('WP_FAIL2BAN_USE_LOG_USER') && true === WP_FAIL2BAN_USE_LOG_USER) ? LOG_USER : WPF2B_FACILITY_LOG_AUTH);
 
 // @codeCoverageIgnoreEnd
-

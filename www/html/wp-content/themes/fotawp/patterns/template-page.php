@@ -5,7 +5,7 @@
   * Categories: template
   * Inserter: false
   */
-  ?>
+?>
 <!-- wp:group {"layout":{"type":"default"}} -->
 <div class="wp-block-group">
   <!-- wp:cover {"overlayColor":"background-alt","minHeight":209,"isDark":false,"style":{"spacing":{"padding":{"top":"var:preset|spacing|80"}}}} -->

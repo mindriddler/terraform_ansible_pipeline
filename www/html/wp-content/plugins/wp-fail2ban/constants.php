@@ -43,4 +43,3 @@ if (!defined('WP_FAIL2BAN_NS')) {
 }
 
 // @codeCoverageIgnoreEnd
-

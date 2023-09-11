@@ -86,4 +86,3 @@ function bail(): bool
 
     return false; // for testing
 }
-

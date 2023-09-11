@@ -8,7 +8,7 @@
  */
 namespace    org\lecklider\charles\wordpress\wp_fail2ban\feature;
 
-use          org\lecklider\charles\wordpress\wp_fail2ban\Syslog;
+use org\lecklider\charles\wordpress\wp_fail2ban\Syslog;
 
 use function org\lecklider\charles\wordpress\wp_fail2ban\array_value;
 use function org\lecklider\charles\wordpress\wp_fail2ban\bail;
@@ -133,8 +133,7 @@ function rest_user_query(array $prepared_args, \WP_REST_Request $request)
      */
     } elseif (is_user_logged_in() &&
               array_key_exists('who', $prepared_args) &&
-              'authors' == $prepared_args['who'])
-    {
+              'authors' == $prepared_args['who']) {
         Syslog::single(LOG_DEBUG, 'Blocked authors enumeration');
 
         return bail();
@@ -230,4 +229,3 @@ function wp_sitemaps_add_provider($provider, $name)
         ? false
         : $provider;
 }
-

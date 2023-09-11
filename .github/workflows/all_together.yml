@@ -1,14 +1,14 @@
 ---
-name: Create staging server
+name: Staging Server
 
 on:
   push:
     branches:
-      - main
+      - staging
   workflow_dispatch:
 
 jobs:
-  create_staging_srv:
+  terraform:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -39,16 +39,14 @@ jobs:
           terraform init
           terraform apply -auto-approve
   
-  setup_ansible:
-    needs: create_staging_srv
+  ansible:
+    needs: terraform
     runs-on: ubuntu-latest
     steps:  
     
     - name: Checkout code
       uses: actions/checkout@v4
     
-
-
     - name: Authenticate with GCP
       uses: 'google-github-actions/auth@v1'
       with:

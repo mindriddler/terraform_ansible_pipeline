@@ -21,8 +21,7 @@ defined('ABSPATH') or exit;
             $mu_file = WPMU_PLUGIN_DIR.'/'.$plugin;
             if (is_link($mu_file)) {
                 if (false === ($link = readlink($mu_file)) ||
-                    false === ($path = realpath($mu_file)))
-                {
+                    false === ($path = realpath($mu_file))) {
                     $h3 = __('A broken symbolic link was found in <tt>mu-plugins</tt>:');
                     $error_msg .= <<< HTML
 <h3>{$h3}</h3>
@@ -60,7 +59,6 @@ span.tt { font-weight: bold; }
 </table>
 HTML;
                 }
-
             } else {
                 $mu_file = str_replace('/', '/<wbr>', $mu_file);
                 $mu_file = substr($mu_file, strlen(WPMU_PLUGIN_DIR)-1);
@@ -101,4 +99,3 @@ HTML;
 
     @include_once WP_FAIL2BAN_DIR.'/premium/activation.php';
 });
-

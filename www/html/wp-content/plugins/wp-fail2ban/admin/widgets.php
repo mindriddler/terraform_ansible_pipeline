@@ -43,7 +43,6 @@ function dashboard_widget_last_messages(): void
             );
             $alt = !$alt;
         }
-
     } else {
         printf('<tr><td colspan="3"><em>%s</em></td></tr>', __('No messages found.', 'wp-fail2ban'));
     }
@@ -55,8 +54,7 @@ function dashboard_widget_last_messages(): void
             update_site_option($dismiss, intval($_GET[$dismiss]));
         }
         if (get_site_option($dismiss, 1) ||
-            array_key_exists($dismiss.'-debug', $_GET))
-        {
+            array_key_exists($dismiss.'-debug', $_GET)) {
             $tfoot .= sprintf(
                 '<tr><td colspan="3"><a href="%s">%s</a><div class="dismiss"><a href="%s" style="text-decoration: none;" title="%s">%s</a></div></td></tr>',
                 network_admin_url('admin.php?page=wp-fail2ban-menu-pricing'),
@@ -134,8 +132,7 @@ add_filter('heartbeat_received', __NAMESPACE__.'\heartbeat_received', 10, 3);
 function wp_dashboard_setup(): void
 {
     if ((!is_multisite() && current_user_can('manage_options')) ||
-        (is_network_admin() && current_user_can('manage_network_options')))
-    {
+        (is_network_admin() && current_user_can('manage_network_options'))) {
         wp_add_dashboard_widget(
             'wp_fail2ban_last_messages',
             __('<span>[<i>WPf2b</i>] Last 5 Messages</span>', 'wp-fail2ban'),
@@ -147,4 +144,3 @@ function wp_dashboard_setup(): void
 }
 add_action('wp_dashboard_setup', __NAMESPACE__.'\wp_dashboard_setup');
 add_action('wp_network_dashboard_setup', __NAMESPACE__.'\wp_dashboard_setup');
-
