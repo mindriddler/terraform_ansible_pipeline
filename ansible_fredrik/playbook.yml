@@ -85,6 +85,9 @@
   become: true
   vars_files:
     - vars/default.yml
+  vars:
+    wordpress_dir: "/var/www/{{ http_host }}/wordpress"
+    temp_dir: "/tmp"
 
   tasks:
     # Apache Configuration
@@ -182,13 +185,24 @@
       tags: [mysql]
 
     # WordPress Configuration
-    - name: Download and unpack latest WordPress
+    - name: Download latest WordPress archive
+      ansible.builtin.get_url:
+        url: https://wordpress.org/latest.tar.gz
+        dest: "/tmp/latest.tar.gz"
+        mode: "0755"
+      register: download_result
+      until: download_result is success
+      retries: 5 # adjust as needed
+      delay: 10 # wait 10 seconds between retries
+      tags: [wordpress]
+
+    - name: Unpack WordPress archive if download succeeded
       ansible.builtin.unarchive:
-        src: https://wordpress.org/latest.tar.gz
+        src: "/tmp/latest.tar.gz"
         dest: "/var/www/{{ http_host }}"
         remote_src: true
         creates: "/var/www/{{ http_host }}/wordpress"
-      register: download_result
+      when: download_result is success
       tags: [wordpress]
 
     - name: Set ownership
@@ -198,18 +212,16 @@
         recurse: true
         owner: www-data
         group: www-data
-      when: download_result.changed
+      when: download_result is changed
       tags: [wordpress]
-
+    
     - name: Set permissions for directories
       ansible.builtin.shell: "/usr/bin/find /var/www/{{ http_host }}/wordpress/ -type d -exec chmod 777 {} \\;"
       when: download_result.changed
-      tags: [wordpress]
-
+    
     - name: Set permissions for files
       ansible.builtin.shell: "/usr/bin/find /var/www/{{ http_host }}/wordpress/ -type f -exec chmod 777 {} \\;"
       when: download_result.changed
-      tags: [wordpress]
 
     - name: Set up wp-config
       ansible.builtin.template:
@@ -312,6 +324,18 @@
         state: import
         target: /tmp/wordpress.bak.sql
       when: download_result.changed
+    
+    - name: Cleanup temporary files
+      ansible.builtin.file:
+        path: "{{ temp_dir }}/latest.tar.gz"
+        state: absent
+      tags: [cleanup]
+
+    - name: Cleanup database dump
+      ansible.builtin.file:
+        path: "{{ temp_dir }}/wordpress.bak.sql"
+        state: absent
+      tags: [cleanup]
 
   handlers:
     - name: Reload Apache
@@ -323,7 +347,6 @@
       ansible.builtin.service:
         name: apache2
         state: restarted
-
 
 - name: Run tests
   hosts: staging

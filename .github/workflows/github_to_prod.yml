@@ -1,0 +1,65 @@
+name: Production Server
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  transfer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: print secrets
+        env:
+          GITHUB_ACTION_KEY: ${{secrets.GHUB_ACTION_KEY}}
+        run: |
+          echo "$GITHUB_ACTION_KEY" >> github_action_key
+      
+      - name: Setup known hosts
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          echo "[gear5.online]:22 ${{ secrets.SERVER_PUBLIC_KEY }}" >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+      - name: Clone repository on prod
+        run: |
+          chmod 600 ./github_action_key
+          ssh -o StrictHostKeyChecking=no -T -i ./github_action_key root@gear5.online <<EOF
+          # Add GitHub's RSA key to known_hosts to prevent verification issues
+          ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+          
+          if [ -d "/opt/gear5" ]; then
+            # Directory exists, cd into it and pull
+            echo "Folder exists, doing a pull"
+            cd /opt/gear5
+            git pull
+          else  
+            # Directory doesn't exist, clone the repo to /opt/
+            echo "Folder doesn't exist, doing a clone"
+            git clone git@github.com:SamanPetfat/gear5.git /opt/gear5
+          fi
+          EOF
+
+      - name: Setup Symlinks and Permissions
+        run: |
+          ssh -o StrictHostKeyChecking=no -T -i ./github_action_key root@gear5.online <<EOF
+          chown -R www-data:www-data /opt/gear5/www/html/wp-content
+          TODAY=$(date +'%Y-%m-%d')
+
+          mkdir -p /var/www/backup/$TODAY
+
+          mv /var/www/html/wp-content/plugins /var/www/backup/$TODAY/plugins
+          mv /var/www/html/wp-content/themes /var/www/backup/$TODAY/themes
+          mv /var/www/html/wp-content/uploads /var/www/backup/$TODAY/uploads
+
+          ln -s /opt/gear5/www/html/wp-content/plugins /var/www/html/wp-content/plugins
+          ln -s /opt/gear5/www/html/wp-content/themes /var/www/html/wp-content/themes
+          ln -s /opt/gear5/www/html/wp-content/uploads /var/www/html/wp-content/uploads
+          
+          service apache2 restart
+          EOF
