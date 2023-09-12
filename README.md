@@ -24,7 +24,10 @@
 
 ---
 
-## How to run the project
+<details>
+<summary>How to run the project - Old stuff</summary>
+
+## How to run the  - Old stuff
 
 ### 0. Prerequisites
 
@@ -99,9 +102,16 @@ docker-compose down -v
 docker-compose start
 ```
 
----
+</details>
 
-## Timeline
+<details>
+<summary>How to run the project - New stuff</summary>
+
+Coming soon...
+
+</details>
+
+---
 
 ```mermaid
 gantt
@@ -109,6 +119,6 @@ gantt
     title       gear5 Project Timeline
 
     section gear5
-    Terraform & Ansible      :active, 2023-09-07, 2023-09-13
+    Terraform & Ansible      :active, 2023-09-07, 2023-09-15
     
 ```
