@@ -61,13 +61,13 @@ jobs:
           ln -s /opt/gear5/www/html/wp-content/plugins /var/www/html/wp-content/plugins
           ln -s /opt/gear5/www/html/wp-content/themes /var/www/html/wp-content/themes
           ln -s /opt/gear5/www/html/wp-content/uploads /var/www/html/wp-content/uploads
-          
+
           chown -h www-data:www-data /var/www/html/wp-content/plugins
           chown -h www-data:www-data /var/www/html/wp-content/themes
           chown -h www-data:www-data /var/www/html/wp-content/uploads
-          
+
           chown -R www-data:www-data /opt/gear5/www/html/wp-content
-          
+
+          bash /opt/gear5/activate-latest-theme.sh
           service apache2 restart
           EOF
-
