@@ -4,9 +4,13 @@
 
 # *gear*5 - Linux II *Project*
 
-[![Deploy to Staging](https://github.com/SamanPetfat/gear5/actions/workflows/staging.yml/badge.svg)](https://github.com/SamanPetfat/gear5/actions/workflows/staging.yml)
-
 [![PHP CodeSniffer](https://github.com/SamanPetfat/gear5/actions/workflows/php_linter.yml/badge.svg)](https://github.com/SamanPetfat/gear5/actions/workflows/php_linter.yml)
+
+[![Staging Server](https://github.com/SamanPetfat/gear5/actions/workflows/create_and_configure_staging.yml/badge.svg)](https://github.com/SamanPetfat/gear5/actions/workflows/create_and_configure_staging.yml)
+
+[![Production Server](https://github.com/SamanPetfat/gear5/actions/workflows/github_to_prod.yml/badge.svg)](https://github.com/SamanPetfat/gear5/actions/workflows/github_to_prod.yml)
+
+[![Destroy staging server](https://github.com/SamanPetfat/gear5/actions/workflows/destroy_staging.yml/badge.svg)](https://github.com/SamanPetfat/gear5/actions/workflows/destroy_staging.yml)
 
 ---
 
@@ -18,9 +22,11 @@
 
 ---
 
-[Description](assignment.md)
+[Description](pdf/assignment.md)
 
 [gear5 Trello Board](https://trello.com/b/HF9T6NHr/gear5)
+
+[Production IP](http://xxx.xxx.xxx.xxx)
 
 ---
 
@@ -39,6 +45,12 @@
 
 ```bash
 git clone https://github.com/SamanPetfat/gear5.git
+```
+
+### 1.1 Move the files from the docker folder to the root of the project
+
+```bash
+mv docker/* .
 ```
 
 ### 2. Create the .env file
