@@ -35,8 +35,8 @@ jobs:
           
           if [ -d "/opt/gear5" ]; then
             # Directory exists, first backup the actual content
-            TODAY=$(date +'%Y-%m-%d')
-            mkdir -p /var/www/backup/$TODAY
+            TODAY="$(date +'%Y-%m-%d')"
+            echo "The value of TODAY is: $TODAY"
 
             rsync -avL /var/www/html/wp-content/plugins/ /var/www/backup/$TODAY/plugins/
             rsync -avL /var/www/html/wp-content/themes/ /var/www/backup/$TODAY/themes/
