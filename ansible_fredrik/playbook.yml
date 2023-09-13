@@ -348,6 +348,52 @@
         name: apache2
         state: restarted
 
+- name: Install WP-CLI and activate latest theme
+  hosts: staging
+  become: true
+  vars_files:
+    - vars/default.yml
+
+  tasks:
+    - name: Check if wp-cli exists
+      stat: path="/usr/local/bin/wp"
+      register: wpcli_exist
+      tags:
+        - always
+
+    - name: Updating wp-cli
+      shell: "/usr/local/bin/wp cli update --yes"
+      when: wpcli_exist.stat.exists
+      tags:
+        - wp
+        - update
+
+    - name: Download wp-cli
+      get_url:
+        url: "https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
+        dest: "/usr/local/bin/wp"
+        force_basic_auth: yes
+        mode: "0755"
+      when: not wpcli_exist.stat.exists
+      tags:
+        - wp
+        - install
+
+    - name: Determine the latest modified theme
+      shell: |
+        git log --pretty=format: --name-only | grep "wp-content/themes/" | sed -n 's|www/html/wp-content/themes/\([^/]\+\).*|\1|p' | sort -u | head -1
+      args:
+        chdir: /home/runner/gear5
+      register: latest_theme
+      changed_when: false  # This command doesn't change state
+
+    - name: Activate the latest theme in WordPress using wp-cli
+      shell: |
+        wp theme activate {{ latest_theme.stdout }} --allow-root
+      args:
+        chdir: /var/www/{{ http_host }}/wordpress
+      when: latest_theme.stdout | length > 0
+
 - name: Run tests
   hosts: staging
   become: true
