@@ -29,32 +29,29 @@ jobs:
       - name: Backup, then Clone/Pull repository on prod
         run: |
           chmod 600 ./github_action_key
-          ssh -o StrictHostKeyChecking=no -T -i ./github_action_key root@gear5.online <<EOF
+          ssh -o StrictHostKeyChecking=no -T -i ./github_action_key root@gear5.online <<'EOF'
           # Add GitHub's RSA key to known_hosts to prevent verification issues
           ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
           
+          TODAY=$(date +'%Y-%m-%d')
+          echo "The value of TODAY is: $TODAY"
+          mkdir -p /var/www/backup/$TODAY
+      
+          rsync -avL /var/www/html/wp-content/plugins/ /var/www/backup/$TODAY/plugins/
+          rsync -avL /var/www/html/wp-content/themes/ /var/www/backup/$TODAY/themes/
+          rsync -avL /var/www/html/wp-content/uploads/ /var/www/backup/$TODAY/uploads/
+      
+          rm -rf /var/www/html/wp-content/plugins
+          rm -rf /var/www/html/wp-content/themes
+          rm -rf /var/www/html/wp-content/uploads
+      
           if [ -d "/opt/gear5" ]; then
-            # Directory exists, first backup the actual content
-            TODAY="$(date +'%Y-%m-%d')"
-            echo "The value of TODAY is: $TODAY"
-
-            rsync -avL /var/www/html/wp-content/plugins/ /var/www/backup/$TODAY/plugins/
-            rsync -avL /var/www/html/wp-content/themes/ /var/www/backup/$TODAY/themes/
-            rsync -avL /var/www/html/wp-content/uploads/ /var/www/backup/$TODAY/uploads/
-
-            # Remove the original directories after backing them up
-            rm -rf /var/www/html/wp-content/plugins
-            rm -rf /var/www/html/wp-content/themes
-            rm -rf /var/www/html/wp-content/uploads
-
-            # Then, cd into it and pull
-            echo "Folder exists, doing a pull"
-            cd /opt/gear5
-            git pull
+              echo "Folder exists, doing a pull"
+              cd /opt/gear5
+              git pull
           else  
-            # Directory doesn't exist, clone the repo to /opt/
-            echo "Folder doesn't exist, doing a clone"
-            git clone git@github.com:SamanPetfat/gear5.git /opt/gear5
+              echo "Folder doesn't exist, doing a clone"
+              git clone git@github.com:SamanPetfat/gear5.git /opt/gear5
           fi
           EOF
 
