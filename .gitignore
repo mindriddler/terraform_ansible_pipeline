@@ -52,3 +52,8 @@ www/html/.htaccess
 # Note: If you wish to whitelist themes,
 # uncomment the next line
 #/wp-content/themes
+
+# Alex's custom rules
+.DS_Store
+alex/
+ansible_alex/
