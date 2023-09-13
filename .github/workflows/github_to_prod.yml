@@ -76,6 +76,10 @@ jobs:
           ssh -o StrictHostKeyChecking=no -T -i ./github_action_key root@gear5.online <<EOF
           LATEST_THEME=\$(find /opt/gear5/www/html/wp-content/themes -maxdepth 1 -type d | xargs -I {} stat --format '%Y %n' {} | sort -n | tail -1 | awk '{print \$2}' | xargs basename)
           cd /var/www/html
-          wp theme activate \$LATEST_THEME --allow-root
+          if [[ \$LATEST_THEME == "themes" ]]; then
+            echo "No new theme supplied."
+          else
+            wp theme activate \$LATEST_THEME --allow-root
+          fi
           EOF
 
