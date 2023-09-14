@@ -28,7 +28,7 @@ variable "compute_config" {
 
   default = {
     name     = "gear5-staging-srv1"
-    type     = "e2-medium"
+    type     = "e2-highcpu-8"
     hostname = "internal.gear5.staging"
   }
 }
