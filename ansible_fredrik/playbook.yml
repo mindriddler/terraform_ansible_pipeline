@@ -393,7 +393,8 @@
       args:
         chdir: /var/www/{{ http_host }}/wordpress
       when: latest_theme.stdout | length > 0
-
+      ignore_errors: true
+      
 - name: Run tests
   hosts: staging
   become: true
