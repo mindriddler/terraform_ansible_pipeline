@@ -149,22 +149,22 @@
       when: root_password_check.changed
       tags: [mysql, mysql-root]
 
-    - name: Remove all anonymous user accounts
-      community.mysql.mysql_user:
-        name: ""
-        host_all: true
-        state: absent
-        login_user: root
-        login_password: "{{ mysql_root_password }}"
-      tags: [mysql]
+    # - name: Remove all anonymous user accounts
+    #   community.mysql.mysql_user:
+    #     name: ""
+    #     host_all: true
+    #     state: absent
+    #     login_user: root
+    #     login_password: "{{ mysql_root_password }}"
+    #   tags: [mysql]
 
-    - name: Remove the MySQL test database
-      community.mysql.mysql_db:
-        name: test
-        state: absent
-        login_user: root
-        login_password: "{{ mysql_root_password }}"
-      tags: [mysql]
+    # - name: Remove the MySQL test database
+    #   community.mysql.mysql_db:
+    #     name: test
+    #     state: absent
+    #     login_user: root
+    #     login_password: "{{ mysql_root_password }}"
+    #   tags: [mysql]
 
     - name: Creates database for WordPress
       community.mysql.mysql_db:
@@ -325,17 +325,17 @@
         target: /tmp/wordpress.bak.sql
       when: download_result.changed
     
-    - name: Cleanup temporary files
-      ansible.builtin.file:
-        path: "{{ temp_dir }}/latest.tar.gz"
-        state: absent
-      tags: [cleanup]
+    # - name: Cleanup temporary files
+    #   ansible.builtin.file:
+    #     path: "{{ temp_dir }}/latest.tar.gz"
+    #     state: absent
+    #   tags: [cleanup]
 
-    - name: Cleanup database dump
-      ansible.builtin.file:
-        path: "{{ temp_dir }}/wordpress.bak.sql"
-        state: absent
-      tags: [cleanup]
+    # - name: Cleanup database dump
+    #   ansible.builtin.file:
+    #     path: "{{ temp_dir }}/wordpress.bak.sql"
+    #     state: absent
+    #   tags: [cleanup]
 
   handlers:
     - name: Reload Apache
@@ -385,7 +385,7 @@
       args:
         chdir: /home/runner/gear5
       register: latest_theme
-      changed_when: false  # This command doesn't change state
+      changed_when: false
 
     - name: Activate the latest theme in WordPress using wp-cli
       shell: |
