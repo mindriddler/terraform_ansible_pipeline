@@ -94,12 +94,12 @@ jobs:
     - name: Update default.yml
       run: |
         HOSTNAME=${{ steps.fetch_instance_details.outputs.instance_hostname }}
-        sed -i "s|your_domain|$INSTANCE_HOSTNAME|" ./ansible_fredrik/vars/default.yml
+        sed -i "s|your_domain|$INSTANCE_HOSTNAME|" ./ansible/vars/default.yml
 
     - name: Update Inventory File
       run: |
-        sed -i "s|PATH_TO_SERVICE_ACCOUNT_FILE|$GOOGLE_GHA_CREDS_PATH|" ./ansible_fredrik/misc/inventory.gcp.yml
-        sed -i "s|PROJECT_ID|$GCP_PROJECT|" ./ansible_fredrik/misc/inventory.gcp.yml   
+        sed -i "s|PATH_TO_SERVICE_ACCOUNT_FILE|$GOOGLE_GHA_CREDS_PATH|" ./ansible/misc/inventory.gcp.yml
+        sed -i "s|PROJECT_ID|$GCP_PROJECT|" ./ansible/misc/inventory.gcp.yml   
 
     - name: Install dependencies
       run: |
@@ -112,7 +112,7 @@ jobs:
       uses: dawidd6/action-ansible-playbook@v2
       with:
         playbook: playbook.yml
-        directory: ./ansible_fredrik
+        directory: ./ansible
         options: |
           --inventory misc/inventory.gcp.yml
 
