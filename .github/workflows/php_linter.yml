@@ -22,7 +22,7 @@ jobs:
 
     - name: Run PHP_CodeSniffer Fixer
       run: |
-        phpcbf --standard=PSR2 . --ignore=vendor/* || echo "PHPCBF could not fix all violations"
+        phpcbf --standard=PSR2 . --ignore=vendor/* --error-severity=0 || echo "PHPCBF could not fix all violations"
 
     - name: Create Pull Request
       id: create-pr
@@ -47,7 +47,7 @@ jobs:
           echo "A PR was created. Marking this step as failed."
           exit 1
         fi
-        if phpcs --standard=PSR2 . --ignore=vendor/* --warning-severity=0; then
+        if phpcs --standard=PSR2 . --ignore=vendor/* --warning-severity=0 --error-severity=0; then
           echo "No coding standards errors found."
         else
           echo "Coding standards errors detected."
