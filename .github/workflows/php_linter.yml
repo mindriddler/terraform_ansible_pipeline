@@ -11,7 +11,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        token: ${{ secrets.PHPLINT_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -34,7 +34,7 @@ jobs:
         title: 'Automated PHPCBF Fixes'
         commit-message: 'Apply PHPCBF fixes'
         branch: 'phpcbf-fixes'
-        token: ${{ secrets.PHPLINT_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         base: ${{ github.head_ref }}
         labels: |
           phpcbf
