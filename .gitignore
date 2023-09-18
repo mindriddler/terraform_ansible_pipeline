@@ -57,3 +57,5 @@ www/html/.htaccess
 .DS_Store
 alex/
 ansible_alex/
+
+.env
