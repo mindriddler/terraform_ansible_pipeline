@@ -10,11 +10,6 @@ date=$(date)
 hostname=$(hostname)
 summary="CI/CD PIPELINE HAVE FAILED AT $date ON $hostname."
 
-PR_TITLE="Automated PR: Tests Passed"
-PR_BODY="This pull request is automatically created because all tests passed."
-PR_BASE_BRANCH="main"    # Change this to your target branch
-PR_HEAD_BRANCH="staging" # Change this to your feature branch
-
 send_mail() {
     swaks -S --to $RECIEVER_EMAIL_ADDRESS \
         --from $SENDER_EMAIL_ADDRESS \
