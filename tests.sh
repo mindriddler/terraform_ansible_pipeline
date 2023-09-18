@@ -1,10 +1,5 @@
 #!/bin/bash
-# gmail smtp: smtp.gmail.com:587
-RECIEVER_EMAIL_ADDRESS="gear5staging@gmail.com"
-SENDER_EMAIL_ADDRESS="gear5staging@gmail.com"
-SMTP_SERVER="smtp.gmail.com:587"
-EMAIL_ADDRESS="gear5staging@gmail.com"
-PASSWORD="qwerty123456!"
+source .env
 
 output=$(echo "hello" 2>&1)
 command_status=$?
@@ -14,9 +9,6 @@ num_lines=$(echo "$output" | wc -l)
 date=$(date)
 hostname=$(hostname)
 summary="CI/CD PIPELINE HAVE FAILED AT $date ON $hostname."
-
-GITHUB_REPO="SamanPetfat/gear5"
-GITHUB_TOKEN="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"
 
 PR_TITLE="Automated PR: Tests Passed"
 PR_BODY="This pull request is automatically created because all tests passed."
