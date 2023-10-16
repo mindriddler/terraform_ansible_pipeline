@@ -41,7 +41,7 @@
         state: absent
     - name: Clone private repository
       ansible.builtin.git:
-        repo: https://x-access-token:{{ lookup('env', 'GITHUB_TOKEN') }}@github.com/SamanPetfat/gear5.git
+        repo: https://x-access-token:{{ lookup('env', 'GITHUB_TOKEN') }}@github.com/mindriddler/terraform_ansible_pipeline.git
         dest: /home/runner/gear5
         version: staging
 
